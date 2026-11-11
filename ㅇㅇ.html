@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>생명과학 예상문제</title>
+<meta name="description" content="과학고 1학년 생명과학 예상문제 68문항: 효소, 가계도, 다인자 유전, 연관·교차, DNA 복제">
+<meta name="theme-color" content="#0d6a64">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="생명과학">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hahmlet:wght@500;700&amp;family=IBM+Plex+Mono:wght@500;600&amp;family=IBM+Plex+Sans+KR:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: graph-paper desk, one exam-sheet column; part tabs stick to the top; 'AI에게 묻기' opens a sheet that hands the question to Claude. */
+  --paper: #eef2f0;
+  --grid: #dfe6e3;
+  --sheet: #fbfcfb;
+  --ink: #16212b;
+  --muted: #5a6672;
+  --rule: #d2d9d6;
+  --accent: #0d6a64;
+  --accent-ink: #ffffff;
+  --accent-soft: #dcefec;
+  --mark: #fff09a;
+  --good: #187447;
+  --good-soft: #e1f3e8;
+  --bad: #b03a2e;
+  --bad-soft: #fbe7e4;
+  --line: #66727c;
+  --aff1: #0d6a64;
+  --aff2: #d47a24;
+  --font-display: "Hahmlet", "Noto Serif KR", "AppleMyungjo", serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0e1416; --grid: #172024; --sheet: #141c1f; --ink: #e4ebe9; --muted: #9aa8ac;
+    --rule: #28343a; --accent: #4fc4b6; --accent-ink: #052320; --accent-soft: #163633;
+    --mark: rgba(255, 224, 70, 0.26); --good: #5fd194; --good-soft: #15301f; --bad: #ff8c7d; --bad-soft: #3a1c18;
+    --line: #8e9ca2; --aff1: #4fc4b6; --aff2: #f0a259;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0e1416; --grid: #172024; --sheet: #141c1f; --ink: #e4ebe9; --muted: #9aa8ac;
+  --rule: #28343a; --accent: #4fc4b6; --accent-ink: #052320; --accent-soft: #163633;
+  --mark: rgba(255, 224, 70, 0.26); --good: #5fd194; --good-soft: #15301f; --bad: #ff8c7d; --bad-soft: #3a1c18;
+  --line: #8e9ca2; --aff1: #4fc4b6; --aff2: #f0a259;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+html.lock, html.lock body { overflow: hidden; }
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+button, textarea, input { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2.5px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+a { color: var(--accent); }
+
+.wrap { width: min(760px, 100%); margin: 0 auto; padding: 0 16px; }
+
+/* ---------- header ---------- */
+.top { padding-top: 28px; padding-bottom: 14px; }
+.eyebrow { margin: 0 0 6px; font-size: 13px; color: var(--muted); letter-spacing: 0.02em; }
+h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(30px, 7.4vw, 44px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+h1 .hl { background: linear-gradient(transparent 58%, var(--mark) 58%, var(--mark) 92%, transparent 92%); padding: 0 2px; }
+.lede { margin: 10px 0 0; color: var(--muted); max-width: 34em; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-top: 12px; font-size: 14px; }
+.meta .stat { font-variant-numeric: tabular-nums; color: var(--ink); }
+.meta .stat b { font-family: var(--font-mono); font-weight: 600; }
+
+/* ---------- part tabs ---------- */
+.tabs-bar {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 90%, transparent);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--rule);
+}
+.tabs { display: flex; gap: 8px; overflow-x: auto; padding: 10px 16px; scrollbar-width: none; max-width: 760px; margin: 0 auto; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 0 0 auto; display: grid; grid-template-columns: auto auto; column-gap: 8px; align-items: baseline;
+  border: 1px solid var(--rule); background: var(--sheet); border-radius: 10px; padding: 6px 12px 7px;
+  text-align: left;
+}
+.tab .tl { font-family: var(--font-display); font-weight: 700; font-size: 20px; line-height: 1; grid-row: span 2; align-self: center; }
+.tab .tn { font-size: 14px; font-weight: 600; line-height: 1.25; white-space: nowrap; }
+.tab .tc { font-size: 12px; color: var(--muted); font-family: var(--font-mono); line-height: 1.2; }
+.tab[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+.tab[aria-pressed="true"] .tc { color: color-mix(in srgb, var(--sheet) 75%, transparent); }
+
+/* ---------- part head ---------- */
+.part-head { padding: 22px 0 6px; }
+.part-head h2 { margin: 0; font-family: var(--font-display); font-weight: 700; font-size: 25px; line-height: 1.25; text-wrap: balance; }
+.part-head .desc { margin: 4px 0 0; color: var(--muted); font-size: 15px; }
+.track { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 6px; padding: 0; list-style: none; }
+.track button {
+  width: 30px; height: 30px; padding: 0; border: none; background: none; position: relative;
+  display: grid; place-items: center;
+}
+.track svg { width: 22px; height: 22px; display: block; }
+.legend-row { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 13px; color: var(--muted); align-items: center; }
+.legend-row span { display: inline-flex; gap: 6px; align-items: center; }
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 4px; }
+.chip {
+  border: 1px solid var(--rule); background: var(--sheet); border-radius: 999px; padding: 4px 12px; font-size: 14px;
+}
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); color: var(--ink); font-weight: 600; }
+.chip .n { font-family: var(--font-mono); font-size: 12px; margin-left: 4px; color: var(--muted); }
+
+/* ---------- questions (exam sheet) ---------- */
+.sheet {
+  background: var(--sheet); border: 1px solid var(--rule); border-radius: 4px;
+  margin: 12px 0 120px; padding: 0; list-style: none;
+  box-shadow: 0 1px 0 var(--rule), 0 10px 30px -18px rgba(20, 40, 40, 0.35);
+}
+.q { display: grid; grid-template-columns: 64px 1fr; border-top: 1px solid var(--rule); scroll-margin-top: 84px; }
+.q:first-child { border-top: none; }
+.q-gutter { padding: 18px 0 18px 14px; border-right: 1px dashed var(--rule); }
+.q-id { display: block; font-family: var(--font-mono); font-weight: 600; font-size: 16px; }
+.q-type { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
+.q-body { padding: 16px 16px 18px; min-width: 0; }
+.q-text p { margin: 0 0 8px; white-space: normal; }
+.q-text ul.dots { margin: 4px 0 10px; padding-left: 1.1em; }
+.q-text ul.dots li { margin: 2px 0; }
+.q.hidden { display: none; }
+
+.fig { margin: 10px 0 12px; padding: 12px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); overflow-x: auto; }
+.fig svg { display: block; max-width: 100%; height: auto; margin: 0 auto; }
+.fig .key { display: flex; flex-wrap: wrap; gap: 4px 14px; justify-content: center; margin-top: 8px; font-size: 13px; color: var(--muted); }
+.fig .key span { display: inline-flex; gap: 6px; align-items: center; }
+
+.tablewrap { overflow-x: auto; margin: 8px 0 12px; }
+table { border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; min-width: 60%; }
+th, td { border: 1px solid var(--rule); padding: 5px 10px; text-align: center; white-space: nowrap; }
+th { background: var(--paper); font-weight: 600; }
+
+.bogi { position: relative; border: 1px solid var(--line); border-radius: 4px; padding: 16px 14px 10px; margin: 16px 0 12px; }
+.bogi-label { position: absolute; top: -11px; left: 50%; transform: translateX(-50%); background: var(--sheet); padding: 0 8px; font-size: 14px; font-weight: 600; white-space: nowrap; }
+.bogi ul { list-style: none; margin: 0; padding: 0; }
+.bogi li { margin: 3px 0; padding-left: 1.6em; text-indent: -1.6em; }
+
+.choices { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 4px; }
+.choice {
+  min-width: 88px; padding: 8px 12px; border: 1px solid var(--rule); background: var(--sheet); border-radius: 8px;
+  text-align: left; font-size: 15px; line-height: 1.3;
+}
+.choice:hover:not(:disabled) { border-color: var(--accent); }
+.choice:disabled { cursor: default; opacity: 1; }
+.choice.is-answer { background: var(--mark); border-color: var(--good); font-weight: 600; }
+.choice.is-answer::after { content: " ✓"; color: var(--good); font-weight: 700; }
+.choice.is-wrong { border-color: var(--bad); background: var(--bad-soft); text-decoration: line-through; text-decoration-thickness: 1.5px; }
+.choice.is-dim { opacity: 0.55; }
+
+.feedback { margin: 12px 0 0; padding: 12px 14px; border-radius: 8px; border-left: 4px solid var(--good); background: var(--good-soft); }
+.feedback.no { border-left-color: var(--bad); background: var(--bad-soft); }
+.feedback .verdict { font-weight: 600; margin: 0 0 6px; }
+.feedback p { margin: 0 0 6px; }
+
+.essay-input { width: 100%; min-height: 88px; resize: vertical; margin: 10px 0 6px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper); line-height: 1.6; }
+.essay-input::placeholder { color: var(--muted); }
+.model { margin: 10px 0 0; padding: 12px 14px; border-radius: 8px; background: var(--paper); border: 1px solid var(--rule); }
+.model .tag { display: inline-block; font-size: 13px; font-weight: 600; padding: 0 6px; margin-bottom: 6px; background: var(--mark); border-radius: 3px; }
+.model p { margin: 0 0 6px; }
+.self { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; font-size: 14px; color: var(--muted); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.btn {
+  border: 1px solid var(--rule); background: var(--sheet); border-radius: 8px; padding: 7px 12px; font-size: 14px; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.ai::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.btn.primary.ai::before { background: var(--accent-ink); }
+.btn[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); font-weight: 600; }
+.ai-only[hidden] { display: none !important; }
+
+.empty { padding: 28px 16px; color: var(--muted); text-align: center; }
+
+/* ---------- AI에게 묻기 (Claude로 넘기기) ---------- */
+.fab {
+  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 30;
+  border: none; border-radius: 999px; padding: 12px 18px; background: var(--ink); color: var(--sheet);
+  font-weight: 600; font-size: 15px; box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.45);
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.fab::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--mark); box-shadow: 0 0 0 2px var(--accent); }
+.backdrop { position: fixed; inset: 0; background: rgba(8, 14, 16, 0.4); z-index: 39; }
+.ask {
+  position: fixed; z-index: 40; left: 0; right: 0; bottom: 0;
+  max-height: 88vh; max-height: 88dvh; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--sheet); border-top: 1px solid var(--rule); border-radius: 16px 16px 0 0;
+  box-shadow: 0 -12px 40px -16px rgba(0, 0, 0, 0.45);
+  padding: 14px 16px calc(18px + env(safe-area-inset-bottom, 0px));
+}
+@media (min-width: 700px) {
+  .ask { left: 50%; right: auto; bottom: auto; top: 50%; transform: translate(-50%, -50%); width: 560px; border-radius: 14px; border: 1px solid var(--rule); }
+}
+.ask-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.ask-head strong { font-family: var(--font-display); font-size: 20px; margin-right: auto; }
+.ask-ctx { margin: 0 0 14px; color: var(--muted); font-size: 14px; }
+.ask-ctx b { font-family: var(--font-mono); color: var(--ink); }
+.ask-sub { margin: 0 0 6px; font-size: 14px; font-weight: 600; }
+.ask-opts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.ask-label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+.ask textarea { width: 100%; resize: vertical; min-height: 72px; padding: 10px 12px; border: 1px solid var(--rule); border-radius: 10px; background: var(--paper); line-height: 1.6; }
+.ask-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.ask-actions .btn { padding: 10px 16px; font-size: 15px; text-decoration: none; }
+.ask-note { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+.x { border: none; background: none; padding: 4px 8px; font-size: 18px; line-height: 1; color: var(--muted); }
+.foot { color: var(--muted); font-size: 13px; margin: -96px 0 120px; }
+
+@media (max-width: 520px) {
+  .q { grid-template-columns: 1fr; }
+  .q-gutter { border-right: none; padding: 14px 16px 0; display: flex; gap: 8px; align-items: baseline; }
+  .q-type { margin-top: 0; }
+  .q-body { padding-top: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ask { transition: none; }
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<header class="wrap top">
+  <p class="eyebrow">과학고 1학년 생명과학 · 효소부터 DNA 복제까지</p>
+  <h1><span class="hl">생명과학</span> 예상문제</h1>
+  <p class="lede">파트를 고르고 풀면 바로 채점돼요. 서술형은 내 답을 먼저 써 본 뒤 모범답안과 비교하세요. 막히면 <b>AI에게 묻기</b>를 누르세요. 문제와 해설이 담긴 채로 Claude가 열려요.</p>
+  <div class="meta">
+    <span class="stat" id="stat-all"></span>
+    <span class="stat" id="stat-mcq"></span>
+    <button class="btn" id="install" type="button" hidden>홈 화면에 추가</button>
+  </div>
+</header>
+
+<div class="tabs-bar"><nav class="tabs" id="tabs" aria-label="파트 선택"></nav></div>
+
+<main class="wrap" id="main">
+  <section class="part-head" id="part-head" aria-live="polite"></section>
+  <ol class="sheet" id="sheet"></ol>
+  <p class="foot">푼 기록은 이 기기의 브라우저에만 저장돼요. 크롬 메뉴(⋮)에서 ‘홈 화면에 추가’를 누르면 앱처럼 열려요.</p>
+</main>
+
+<button class="fab" id="fab" type="button">AI에게 묻기</button>
+<div class="backdrop" id="backdrop" hidden></div>
+<section class="ask" id="ask" role="dialog" aria-modal="true" aria-labelledby="ask-title" hidden>
+  <div class="ask-head">
+    <strong id="ask-title">AI에게 묻기</strong>
+    <button class="x" id="ask-close" type="button" aria-label="닫기">✕</button>
+  </div>
+  <p class="ask-ctx" id="ask-ctx"></p>
+  <p class="ask-sub">무엇을 물어볼까요?</p>
+  <div class="ask-opts" id="ask-opts" role="group" aria-label="질문 고르기"></div>
+  <label class="ask-label" for="ask-text">직접 질문 쓰기 (선택)</label>
+  <textarea id="ask-text" rows="3" placeholder="예: ㄷ에서 확률이 왜 2/3이에요?"></textarea>
+  <div class="ask-actions">
+    <a class="btn primary" id="ask-open" href="https://claude.ai/new" target="_blank" rel="noopener">Claude에서 열기</a>
+    <button class="btn" id="ask-copy" type="button">질문 복사</button>
+  </div>
+  <p class="ask-note" id="ask-note"></p>
+</section>
+
+<noscript><p class="wrap">이 페이지는 자바스크립트가 켜져 있어야 문제가 보여요.</p></noscript>
+<script type="application/json" id="data">{"parts":[{"id":"A","title":"A. 개념 서술형","desc":"개념은 모두 서술형. 키워드를 넣어 2~4문장으로 써 보자.","questions":[{"id":"A1","type":"essay","q":"유도적합 모형을 열쇠-자물쇠 모형과 비교하여 '활성 부위'라는 말을 넣어 서술하시오.","answer":"열쇠-자물쇠 모형은 활성 부위와 기질의 모양이 처음부터 꼭 맞는다고 본다. 유도적합 모형에서는 활성 부위가 고정된 구조가 아니어서, 기질이 접근·결합하면 효소의 입체 구조가 조금 변해 기질과 더 잘 맞게 되고, 더 안정적으로 결합하여 반응에 적합한 상태가 된다.","table":null,"fig":null},{"id":"A2","type":"essay","q":"해리상수 Kd를 식으로 정의하고 Kd와 친화력의 관계를 쓰시오. 또 결합률 θ = [L]/([L] + Kd)를 이용해 θ = 0.5가 되는 조건을 구하시오.","answer":"PL ⇌ P + L에서 Kd = [P][L]/[PL] (단위 M). Kd가 작을수록 PL이 잘 해리되지 않으므로 리간드에 대한 친화력이 크다. θ = 0.5이면 [L]/([L] + Kd) = 1/2 → [L] = Kd. 즉 결합 자리의 절반이 차는 리간드 농도가 Kd이다.","table":null,"fig":null},{"id":"A3","type":"essay","q":"정상상태 가정을 쓰고, 이를 이용해 V0 = Vmax[S]/(Km + [S])를 유도하시오. (Km과 Vmax를 속도 상수로 나타낼 것)","answer":"정상상태 가정: ES 생성 속도 = ES 분해 속도. k1[E][S] = (k−1 + k2)[ES]이고 [E] = [Et] − [ES]를 대입하면 k1[S]([Et] − [ES]) = (k−1 + k2)[ES] → [ES] = k1[Et][S] / (k−1 + k2 + k1[S]) = [Et][S] / (Km + [S]), 여기서 Km = (k−1 + k2)/k1. V0 = k2[ES] = k2[Et][S]/(Km + [S])이고 Vmax = k2[Et]이므로 V0 = Vmax[S]/(Km + [S]).","table":null,"fig":null},{"id":"A4","type":"essay","q":"Km의 의미 두 가지와, Km이 기질 친화력의 척도가 되는 조건을 쓰시오. 또 kcat의 정의와, 촉매 효율을 kcat이 아니라 kcat/Km으로 비교하는 이유를 서술하시오.","answer":"① V0가 Vmax의 절반이 되는 기질 농도. ② Km = [E][S]/[ES]이므로 k2 ≪ k−1이면 Km ≈ k−1/k1 = Kd가 되어, Km이 작을수록 기질 친화력이 크다. kcat = Vmax/[Et] = k2로, 효소가 기질로 포화됐을 때 효소 1분자가 단위 시간당 생성물로 바꾸는 기질 분자 수(촉매회전수)이다. [S] ≪ Km이면 MM 식 분모의 [S]를 무시해 V0 ≈ (kcat/Km)[Et][S]가 되므로, 같은 효소·기질 농도에서 속도를 결정하는 값은 kcat/Km이다. 그래서 kcat/Km이 촉매 효율의 척도이다.","table":null,"fig":null},{"id":"A5","type":"essay","q":"라인위버-버크 식을 쓰고, 기울기·y절편·x절편이 각각 무엇인지와 미카엘리스-멘텐 그래프보다 나은 점을 서술하시오.","answer":"1/V0 = (Km/Vmax)·(1/[S]) + 1/Vmax. 기울기 = Km/Vmax, y절편 = 1/Vmax, x절편 = −1/Km. MM 그래프에서 Vmax는 점근선이라 근삿값만 얻을 수 있지만, LB는 직선이라 절편으로 Vmax와 Km을 정확하게 구할 수 있다.","table":null,"fig":null},{"id":"A6","type":"essay","q":"온도가 계속 높아질 때 효소와 무기촉매의 반응 속도 변화가 다른 이유를 쓰고, pH가 효소 활성에 영향을 주는 원리를 '아미노산 잔기'를 넣어 서술하시오.","answer":"온도가 높아지면 입자의 운동 에너지가 커져 활성화 에너지 이상(전이 상태)의 입자 수가 늘어 속도가 증가한다. 효소는 주성분이 단백질이라 최적 온도를 넘으면 입체 구조가 변성되어 속도가 감소하지만, 무기촉매(금속, 금속 산화물)는 열에 강해 온도가 높을수록 계속 빨라진다. pH(H⁺ 농도)가 바뀌면 활성 자리 아미노산 잔기의 이온화 상태가 달라져 입체 구조가 변하고, 변성되면 반응 속도가 감소한다(최적 pH: 펩신 약 2, 아밀레이스 약 7, 트립신 약 8).","table":null,"fig":null},{"id":"A7","type":"essay","q":"경쟁적 저해제가 있을 때 Km은 증가하지만 Vmax는 변하지 않는 이유를 서술하시오.","answer":"저해제가 활성 부위에 결합해 EI를 만들면 기질은 E에만 결합할 수 있어, 관찰자 입장에서는 k1이 [E]/([E]+[EI]) 배로 줄어든 것처럼 보인다. 그래서 Km = (k−1 + k2)/k1이 커진다(αKm). 그러나 [S]를 충분히 높이면 기질이 저해제와의 경쟁에서 이겨 거의 모든 효소가 ES가 되므로 Vmax(= k2[Et])는 변하지 않는다.","table":null,"fig":null},{"id":"A8","type":"essay","q":"무경쟁적 저해제가 있을 때 Km과 Vmax가 모두 감소하는 이유를 서술하시오.","answer":"저해제는 ES에만 결합해 ESI를 만든다. ESI는 E + S로 되돌아가지도, E + P로 전환되지도 못하므로 관찰되는 k−1과 k2가 [ES]/([ES]+[ESI]) = 1/β 배로 감소한다. 따라서 Km = (k−1 + k2)/k1은 Km/β, Vmax = k2[Et]는 Vmax/β로 둘 다 감소한다(ES가 ESI로 빠져나가 E + S → ES 쪽으로 평형이 이동, 겉보기 친화력 증가).","table":null,"fig":null},{"id":"A9","type":"essay","q":"혼합형 저해에서 α > β, α = β, α < β일 때 겉보기 Km의 변화와, 라인위버-버크 그래프에서 저해제가 있을 때와 없을 때 두 직선이 만나는 위치를 쓰시오. 또 비가역적 저해제가 Vmax와 Km에 주는 영향을 서술하시오.","answer":"겉보기 Km = αKm/β, 겉보기 Vmax = Vmax/β. α > β: Km 증가, 두 직선은 2사분면(x축 위)에서 만난다. α = β(비경쟁적 저해): Km 변화 없음, x축 위의 점(−1/Km)에서 만난다. α < β: Km 감소, 3사분면(x축 아래)에서 만난다. 비가역적 저해제는 효소와 공유 결합하거나 매우 안정하게 결합해 활성 효소의 수를 영구히 줄이므로 Vmax는 감소하고, 남은 효소의 친화력은 그대로라 Km은 변하지 않는다. (자살 불활성화 물질: 활성 부위에 결합한 뒤 효소에 의해 변형되어 비가역적으로 결합하는 물질)","table":null,"fig":null},{"id":"A10","type":"essay","q":"협동성을 보이는 다른자리입체성 효소의 [S]–V0 그래프가 S자형이 되는 이유를 서술하고, 이 효소에서 Km 대신 K0.5를 쓰는 이유를 쓰시오.","answer":"여러 소단위체로 이루어진 효소에서 한 소단위체에 기질이 결합하면 효소 구조가 변해 다른 소단위체의 기질 친화력이 커진다(협동성). 그래서 [S]가 낮을 때는 속도가 천천히 오르다가 결합이 시작되면 급격히 증가해 S자형이 된다. 미카엘리스-멘텐 식을 따르지 않으므로 Vmax/2일 때의 [S]를 Km 대신 K0.5로 나타낸다. (다른자리입체성 조절 인자는 활성 부위가 아닌 조절 부위에 비공유·가역적으로 결합해 활성을 높이거나 낮춘다.)","table":null,"fig":null},{"id":"A11","type":"essay","q":"사람의 유전 연구가 어려운 까닭 세 가지를 쓰고, 쌍둥이 연구에서 일란성과 이란성 쌍둥이의 일치도를 비교하는 이유를 서술하시오.","answer":"① 인위적인 교배 실험이 불가능하고 한 세대가 길다. ② 자손 수가 적어 통계적으로 타당한 결과를 얻기 어렵다. ③ 대부분 여러 유전자가 관여하고 환경의 영향도 받는다. 일란성 쌍둥이는 유전자 구성이 같으므로, 일란성 일치도가 이란성보다 훨씬 높으면 유전의 영향이 큰 형질이고, 차이가 작거나 이란성이 더 높으면(예: 암 12% vs 15%) 환경의 영향이 큰 형질이다.","table":null,"fig":null},{"id":"A12","type":"essay","q":"반성유전, 한성유전, 종성유전의 차이를 서술하고, 대머리가 종성유전인 이유를 유전자형을 들어 설명하시오.","answer":"반성유전: 유전자가 X 또는 Y 염색체에 있어 성별에 따라 형질이 나타나는 빈도가 다른 유전(적록색맹, 혈우병, 이모증). 한성유전: 유전자는 암수 모두 가지지만 형질은 한쪽 성에서만 나타나는 유전(소의 젖 분비량). 종성유전: 같은 유전자형이라도 성별에 따라 우열 관계가 달라지는 유전. 대머리 유전자는 상염색체에 있고, 유전자형이 Bb일 때 남자는 대머리(B가 우성), 여자는 정상(B가 열성)이다.","table":null,"fig":null},{"id":"A13","type":"essay","q":"ABO식 혈액형은 대립유전자가 3개인데도 다유전자유전이 아니라 단일유전자유전인 이유를 쓰고, Iᴬ와 Iᴮ의 관계를 서술하시오.","answer":"대립유전자는 Iᴬ, Iᴮ, i의 3개(복대립 유전)이지만, 한 사람의 형질은 한 쌍(유전자 좌위 1개)의 대립유전자로 결정되므로 단일유전자유전이다. Iᴬ와 Iᴮ는 i에 대해 우성이고, 서로는 우열이 없어 AB형에서 둘 다 뚜렷하게 발현된다(공동우성). 그래서 유전자형은 6가지, 표현형은 4가지이다.","table":null,"fig":null},{"id":"A14","type":"essay","q":"단일유전자유전과 다유전자유전의 차이를 표현형 분포와 우열 관계를 넣어 서술하고, AaBbCc × AaBbCc의 자손 피부색이 이론상 7가지인데 실제로는 훨씬 다양한 이유 두 가지를 쓰시오.","answer":"단일유전자유전은 대립유전자 1쌍이 형질을 결정하고, 표현형이 뚜렷이 구분되며(불연속 변이), 우열이 대부분 뚜렷하다. 다유전자유전은 여러 쌍이 누적적으로 작용해 표현형이 연속적 분포(정규분포 곡선)를 보이고 우열이 뚜렷이 구분되지 않는다. 실제가 더 다양한 이유: ① 피부색에 관여하는 대립유전자는 3쌍보다 훨씬 많다. ② 환경의 영향을 받는다.","table":null,"fig":null},{"id":"A15","type":"essay","q":"이수성과 배수성 돌연변이의 차이를 쓰고, 3배체(바나나, 씨 없는 수박)가 정상 생식세포를 만들지 못하는 이유와 이종 배수체(빵밀 등)가 가임성을 회복하는 이유를 서술하시오. 또 유전자 돌연변이는 핵형 분석으로 확인할 수 없는 이유를 쓰시오.","answer":"이수성은 정상보다 염색체가 1~2개 많거나 적은 것이고, 배수성은 감수분열 때 모든 염색체가 분리되지 않아 염색체 세트 수가 3n, 4n처럼 배로 늘어난 것이다(주로 식물). 3배체는 상동염색체가 3개씩이라 감수분열 때 정상적으로 짝을 지어 나뉘지 못해 정상 생식세포를 만들지 못한다. 서로 다른 종의 잡종은 상동염색체 짝이 없어 불임이지만, 염색체가 2배가 되면 모든 염색체가 상동 짝을 가져 감수분열이 정상적으로 일어나 가임성이 회복된다. 유전자 돌연변이는 염기서열만 바뀌고 염색체의 수·모양·크기는 그대로라서 핵형 분석으로는 알 수 없다.","table":null,"fig":null},{"id":"A16","type":"essay","q":"미스센스·침묵·중립·넌센스 돌연변이를 구분하고, 염기 1개 결실이 염기 1개 치환보다 단백질에 더 큰 영향을 주는 이유를 서술하시오. 또 연속된 염기 3개가 결실되면 어떻게 되는지 쓰시오.","answer":"미스센스: 아미노산이 바뀌어 1차·3차 구조가 변하고 기능 이상(낫모양 적혈구: GAG → GUG, 글루탐산 → 발린). 침묵: 동의 코돈으로 바뀌어 아미노산이 그대로. 중립: 아미노산은 바뀌지만 성질이 비슷해 3차 구조가 유지되어 정상. 넌센스: 종결 코돈이 생겨 짧은 단백질. 1개 결실은 번역 틀이 밀려 그 뒤의 모든 코돈(아미노산)이 바뀌고 종결 코돈이 일찍 나올 수도 있어(틀이동), 코돈 하나만 바뀌는 치환보다 효과가 크다. 연속 3개 결실은 틀이 유지되어 아미노산이 1개 빠진다(두 코돈에 걸치면 인접한 1개가 바뀔 수 있음).","table":null,"fig":null},{"id":"A17","type":"essay","q":"연관된 두 유전자 사이의 교차율이 50%를 넘지 않는 이유와, 거리가 먼 두 유전자에서 관찰된 교차율이 실제 지도 거리보다 작게 나오는 이유를 서술하시오. 또 일치계수와 간섭률을 정의하시오.","answer":"교차가 아무리 자유롭게 일어나도 생식세포 비가 AB : Ab : aB : ab = 1 : 1 : 1 : 1(독립과 같음)이 되는 것이 최대이므로 교차율은 최대 50%이다. 거리가 멀면 이중교차처럼 짝수 번의 교차가 일어나 양 끝 유전자의 배열이 부모형으로 돌아가 재조합형으로 관찰되지 않으므로 교차율이 과소평가된다. 일치계수 = 관찰된 이중교차 빈도 / 예상된 이중교차 빈도(두 구간 교차율의 곱), 간섭률 = 1 − 일치계수. 간섭은 한 번 교차가 일어나면 그 근처에서 두 번째 교차가 일어나기 어려워지는 현상이다.","table":null,"fig":null},{"id":"A18","type":"essay","q":"서턴이 염색체설을 제안한 근거와, 모건이 염색체설을 실험적으로 뒷받침한 내용 세 가지를 쓰시오.","answer":"서턴: 감수분열 때 상동염색체가 분리되어 각 생식세포로 들어가고 수정 때 다시 쌍을 이루는 행동이 멘델의 분리의 법칙·독립의 법칙과 일치한다. 모건: ① 초파리의 눈 색이 성염색체와 함께 유전되는 것으로 유전자가 염색체의 일정한 위치에 있음을 보였다. ② 같은 염색체의 유전자가 함께 유전되는 연관과 교차에 의한 유전자 재조합을 설명했다. ③ 교차 빈도로 유전자 지도를 작성해 유전자가 염색체에 선형으로 배열되어 있음을 제시했다.","table":null,"fig":null},{"id":"A19","type":"essay","q":"그리피스 실험의 결론과 한계를 쓰고, 에이버리가 형질전환 물질이 DNA라고 결론 내린 근거를 서술하시오.","answer":"그리피스: 열처리한 S형균과 살아 있는 R형균을 함께 주입하면 생쥐가 죽고 살아 있는 S형균이 발견되었다 → 죽은 S형균의 어떤 물질(열에 강함)이 R형균을 S형균으로 형질전환시켰다. 한계: 그 물질이 무엇인지는 밝히지 못했다. 에이버리: S형균 추출물에 단백질·탄수화물·RNA 분해효소를 처리해도 형질전환이 일어났지만, DNA 분해효소를 처리하면 형질전환이 일어나지 않았다 → 형질전환을 일으키는 물질은 DNA이다.","table":null,"fig":null},{"id":"A20","type":"essay","q":"세균의 형질전환에서 공여체 DNA가 수용체 염색체에 들어가는 과정을 순서대로 서술하고, 형질전환 직후 분열한 두 세포 중 하나만 형질전환된 이유를 쓰시오.","answer":"공여체 DNA가 수용체 세포 표면의 DNA 결합 단백질에 결합 → 표면의 핵산가수분해효소가 한 가닥을 분해하고 다른 한 가닥만 들어옴(형질전환-특수 단백질의 도움) → RecA 단백질이 이 단일가닥을 수용체 염색체의 상동 염기서열 부위에 삽입하고, 원래 DNA 분절은 핵산가수분해효소가 제거 → 완전히 상보적이지 않아 잘못짝지음이 있는 이형 이중가닥 DNA 형성. 이형 이중가닥이 복제되면 한 가닥은 공여체 서열, 다른 가닥은 원래 서열을 주형으로 복제되므로 두 딸세포 중 하나만 형질전환된다.","table":null,"fig":null},{"id":"A21","type":"essay","q":"원핵세포와 진핵세포의 유전체를 DNA의 위치·형태·수, 히스톤, 인트론, 유전자 밀도 측면에서 비교하시오.","answer":"원핵세포: 핵막 없이 세포질의 핵양체에 원형 DNA 1개(추가로 플라스미드), 히스톤에 의한 뉴클레오솜 구조 없음, 인트론 없음(전사 후 바로 번역), 비유전자 부위가 거의 없어 유전자 밀도가 높다. 진핵세포: 핵막으로 둘러싸인 핵 속에 선형 DNA 여러 개, 히스톤과 결합해 뉴클레오솜·염색질 구조를 이루고 분열 때 응축, 엑손과 인트론이 있어 RNA 가공이 필요, 비유전자 부위가 많아 유전자 밀도가 낮고 유전자의 평균 크기는 크다.","table":null,"fig":null},{"id":"A22","type":"essay","q":"메셀슨·스탈 실험에서 G1 결과로 배제되는 복제 모델과 G2 결과로 배제되는 복제 모델을 근거와 함께 쓰고, 질소 동위원소를 쓴 이유를 쓰시오.","answer":"G1에서 중간 밀도 띠만 나타났다 → 보존적 복제라면 무거운 띠와 가벼운 띠가 따로 나타났어야 하므로 보존적 복제가 배제된다. G2에서 중간 띠와 가벼운 띠가 함께 나타났다 → 분산적 복제라면 점점 가벼워지는 띠 하나만 나타났어야 하므로 분산적 복제가 배제되고 반보존적 복제가 지지된다. 질소는 DNA 염기의 구성 원소이고, ¹⁵N과 ¹⁴N은 화학적 성질은 거의 같지만 질량이 달라 DNA 밀도 차이를 만들기 때문이다.","table":null,"fig":null},{"id":"A23","type":"essay","q":"DNA 복제에 프라이머가 필요한 이유와, 지연가닥이 불연속적으로 합성되는 이유를 서술하시오.","answer":"DNA 중합효소는 처음부터 가닥을 시작하지 못하고 이미 있는 가닥의 3′-OH에만 뉴클레오타이드를 붙일 수 있으므로, 프라이메이스가 만든 RNA 프라이머가 3′-OH를 제공해야 한다. DNA 중합효소는 5′→3′ 방향으로만 합성하므로, 한 주형에서는 복제분기점 진행 방향으로 연속 합성(선도가닥)되지만 다른 주형에서는 합성 방향이 분기점 진행과 반대여서 분기점이 열릴 때마다 짧은 조각(오카자키 절편)으로 불연속 합성된다(지연가닥). 이후 DNA 중합효소 I이 프라이머를 DNA로 바꾸고 DNA 연결효소가 조각을 잇는다.","table":null,"fig":null},{"id":"A24","type":"essay","q":"교정판독 기작을 단계별로 쓰고, 이 기능을 하는 효소 활성의 이름을 쓰시오.","answer":"3′→5′ 핵산말단가수분해효소 활성. ① 틀린 염기가 들어가 올바른 수소 결합이 형성되지 않는다. ② 잘못짝지음으로 DNA에 비틀림이 생긴다. ③ 이를 인식해 중합 활성이 지연된다. ④ 새 가닥의 3′ 말단이 교정 부위로 이동해 잘못 붙은 뉴클레오타이드가 제거된다. ⑤ 중합 활성으로 합성이 재개된다.","table":null,"fig":null},{"id":"A25","type":"essay","q":"진핵세포의 선형 DNA가 복제될 때마다 짧아지는 이유와, 텔로머레이스가 이를 막는 방법을 서술하시오.","answer":"주형 가닥 3′ 말단에 붙은 마지막 RNA 프라이머가 제거된 자리는 앞쪽에서 3′-OH를 제공할 DNA가 없어 DNA로 채울 수 없으므로, 복제할 때마다 말단(텔로미어, (5′-TTAGGG-3′)ₙ 반복)이 짧아진다. 텔로머레이스는 RNA 주형을 가진 역전사효소로, 자신의 RNA를 주형으로 텔로미어 DNA의 3′ 말단을 연장하고, 이후 프라이메이스와 DNA 중합효소가 상보 가닥을 합성한다.","table":null,"fig":null},{"id":"A26","type":"essay","q":"대장균의 복제 개시에서 DnaA, DnaB, DnaC의 역할을 쓰고, 프리모솜과 리플리솜의 구성과 차이를 서술하시오.","answer":"DnaA: 복제 원점 oriC를 인식하고 DNA 일부가 풀리도록 유도한다. DnaC: DnaB가 DNA에 자리잡도록 돕는 헬리케이스 적재 단백질. DnaB: 헬리케이스로 ATP 가수분해 에너지를 이용해 DNA를 풀며, 서로 다른 가닥에 하나씩 배치된다. 프리모솜은 DnaG(프라이메이스) + DnaB로 DNA를 풀고 RNA 프라이머를 만든다. 리플리솜은 프리모솜 + DNA 중합효소 III + 활주 클램프 등으로 DNA 풀기, 프라이머 합성, DNA 합성을 모두 하므로 리플리솜이 더 큰 단위이다.","table":null,"fig":null},{"id":"A27","type":"essay","q":"ddNTP가 DNA 합성을 멈추게 하는 원리와, 반응액에 ddNTP를 dNTP보다 소량 넣는 이유를 서술하시오.","answer":"ddNTP는 3′ 탄소에 -OH가 없고 -H만 있어 다음 뉴클레오타이드와 인산다이에스터 결합을 만들지 못하므로 그 자리에서 사슬 신장이 끝난다. 소량만 넣어야 그 염기가 나오는 여러 위치에서 무작위로 가끔 끼어들어 모든 위치에서 끝난 다양한 길이의 조각이 생긴다(많이 넣으면 앞쪽 위치에서 대부분 끝나 긴 조각이 거의 생기지 않는다).","table":null,"fig":null}]},{"id":"B","title":"B. 효소 계산·그래프","desc":"MM 식, LB 식, 저해 유형 계산.","questions":[{"id":"B1","type":"mcq","q":"표는 효소 X가 기질 P, Q, R과 반응할 때의 kcat과 Km을 나타낸 것이다. (단, Km은 기질 친화력의 척도로 볼 수 있다.) 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. 효소 X의 기질 친화력은 R > P > Q이다.","ㄴ. 효소가 기질로 포화되었을 때 효소 1분자가 단위 시간당 생성물로 바꾸는 기질 수는 Q가 가장 많다.","ㄷ. 효소 농도와 기질 농도가 같고 [S]가 Km보다 매우 낮을 때, 반응 속도가 가장 빠른 기질은 Q이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":2,"explain":"ㄱ. Km이 R 0.5 < P 5 < Q 40 mM이므로 친화력은 R > P > Q (O). ㄴ. kcat이 가장 큰 Q (O). ㄷ. [S] ≪ Km이면 속도는 kcat/Km에 비례한다. P = 50/0.005 = 1.0×10⁴, Q = 200/0.04 = 5.0×10³, R = 10/0.0005 = 2.0×10⁴ M⁻¹s⁻¹ → 가장 빠른 것은 R (X).","table":{"head":["기질","kcat (s⁻¹)","Km (mM)"],"rows":[["P","50","5"],["Q","200","40"],["R","10","0.5"]]},"fig":null},{"id":"B2","type":"essay","q":"어떤 효소의 Vmax = 120 μM/min, Km = 4 mM이고 효소 농도 [Et] = 0.02 μM이다. (1) [S] = 4 mM, 12 mM일 때 V0를 각각 구하시오. (2) V0 = 0.8 Vmax가 되는 [S]를 구하시오. (3) kcat을 s⁻¹ 단위로 구하시오. (4) kcat/Km을 M⁻¹s⁻¹ 단위로 구하시오.","answer":"(1) [S] = Km이므로 V0 = 60 μM/min. [S] = 12 mM이면 V0 = 120 × 12/(4 + 12) = 90 μM/min. (2) 0.8 = [S]/(4 + [S]) → 0.2[S] = 3.2 → [S] = 16 mM. (3) kcat = Vmax/[Et] = 120/0.02 = 6000 min⁻¹ = 100 s⁻¹. (4) kcat/Km = 100 s⁻¹ ÷ (4 × 10⁻³ M) = 2.5 × 10⁴ M⁻¹s⁻¹.","table":null,"fig":null},{"id":"B3","type":"essay","q":"표는 효소 E에 저해제 I(2 μM)가 없을 때와 있을 때 라인위버-버크 그래프의 절편을 나타낸 것이다. (1) 각 조건의 Vmax와 Km을 구하시오. (2) 저해 유형을 쓰고 근거를 서술하시오. (3) β와 K′I를 구하시오. (β = 1 + [I]/K′I)","answer":"(1) 저해제 없음: Vmax = 1/0.01 = 100 μM/min, Km = 1/0.5 = 2 mM. 저해제 있음: Vmax = 1/0.02 = 50 μM/min, Km = 1/1.0 = 1 mM. (2) 무경쟁적 저해. Km과 Vmax가 모두 1/2배로 줄었고, 기울기(Km/Vmax)가 2/100 = 1/50 = 0.02로 같아 두 직선이 평행하다. (3) Vmax/β = 50 → β = 2. 2 = 1 + 2/K′I → K′I = 2 μM.","table":{"head":["조건","y절편 (min/μM)","x절편 (mM⁻¹)"],"rows":[["저해제 없음","0.01","−0.5"],["저해제 I 있음","0.02","−1.0"]]},"fig":null},{"id":"B4","type":"mcq","q":"다음은 저해제 X, Y, Z가 있을 때 효소 반응의 라인위버-버크 그래프가 저해제가 없을 때와 비교해 어떻게 달라지는지 나타낸 것이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?\n\n• X: 두 직선의 y절편은 같고, X가 있을 때 기울기가 더 크다.\n• Y: 두 직선의 기울기가 같고, Y가 있을 때 y절편이 더 크다.\n• Z: 두 직선이 x축 위의 한 점에서 만난다.","statements":["ㄱ. X는 기질과 활성 부위를 두고 경쟁한다.","ㄴ. Y에 의한 저해는 기질 농도를 충분히 높이면 극복된다.","ㄷ. Z가 있을 때 Vmax는 감소하지만 Km은 변하지 않는다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":3,"explain":"X: y절편(1/Vmax) 같음 → Vmax 불변, 기울기 증가 → 경쟁적 저해 (ㄱ O). Y: 평행 → 무경쟁적 저해. Vmax가 감소하므로 [S]를 높여도 원래 Vmax에 도달하지 못한다 (ㄴ X). Z: x절편(−1/Km)이 같고 y절편이 커짐 → 비경쟁적 저해, Km 불변·Vmax 감소 (ㄷ O).","table":null,"fig":null},{"id":"B5","type":"essay","q":"어떤 효소의 Km = 1 mM, Vmax = 80 μM/min이다. 경쟁적 저해제 I(KI = 2 μM)를 6 μM 넣었다. (1) α와 겉보기 Km을 구하시오. (2) [S] = 4 mM일 때 저해제가 없을 때와 있을 때의 V0를 각각 구하시오. (3) 저해제가 있을 때 V0 = 64 μM/min을 얻으려면 [S]가 얼마여야 하는가?","answer":"(1) α = 1 + 6/2 = 4, 겉보기 Km = αKm = 4 mM. (2) 없을 때: 80 × 4/(1 + 4) = 64 μM/min. 있을 때: 80 × 4/(4 + 4) = 40 μM/min. (3) 64 = 80[S]/(4 + [S]) → 0.8(4 + [S]) = [S] → [S] = 16 mM. (경쟁적 저해는 [S]를 높이면 극복된다.)","table":null,"fig":null},{"id":"B6","type":"mcq","q":"단백질 P의 리간드 L에 대한 해리상수 Kd는 2 μM이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, θ는 결합률이다.)","statements":["ㄱ. [L] = 2 μM일 때 θ = 0.25이다.","ㄴ. [L] = 6 μM일 때 θ = 0.75이다.","ㄷ. [L]이 Kd의 9배일 때 θ = 0.9이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":4,"explain":"θ = [L]/([L] + Kd). ㄱ. 2/(2 + 2) = 0.5 (X). ㄴ. 6/(6 + 2) = 0.75 (O). ㄷ. 9Kd/(9Kd + Kd) = 0.9 (O).","table":null,"fig":null},{"id":"B7","type":"essay","q":"어떤 효소의 Km = 2 mM, Vmax = 100 μM/min이다. E와 ES 모두에 결합하는 저해제 I를 4 μM 넣었다. (KI = 2 μM, K′I = 4 μM, α = 1 + [I]/KI, β = 1 + [I]/K′I) (1) α와 β를 구하시오. (2) 겉보기 Km과 겉보기 Vmax를 구하시오. (3) 라인위버-버크 그래프의 y절편과 x절편을 구하시오. (4) 저해제가 있을 때와 없을 때의 두 직선은 몇 사분면에서 만나는가? 이유도 쓰시오.","answer":"(1) α = 1 + 4/2 = 3, β = 1 + 4/4 = 2. (2) 겉보기 Km = αKm/β = 3 × 2/2 = 3 mM, 겉보기 Vmax = Vmax/β = 50 μM/min. (3) y절편 = β/Vmax = 0.02 min/μM, x절편 = −β/(αKm) = −2/6 = −1/3 mM⁻¹. (4) 2사분면. α > β인 혼합형 저해라 Km은 증가하고 Vmax는 감소하므로, 두 직선은 y축 왼쪽·x축 위에서 만난다(교점 x = −1/4 mM⁻¹, y = 0.005 min/μM).","table":null,"fig":null}]},{"id":"C","title":"C. 가계도·사람의 유전","desc":"유전 양식 판정, DNA 상대량, ABO, 종성, 치사, 쌍둥이.","questions":[{"id":"C1","type":"mcq","q":"그림은 어떤 집안의 유전병 가계도이다. 이 유전병은 대립유전자 A와 a에 의해 결정되며, A는 a에 대해 완전 우성이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, 돌연변이는 고려하지 않는다.)","statements":["ㄱ. 이 유전병은 열성 형질이다.","ㄴ. 이 유전병 유전자는 X 염색체에 있다.","ㄷ. 3과 5가 각각 유전병 대립유전자 a를 가질 확률은 같다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":1,"explain":"ㄱ. 정상인 1과 2 사이에서 유전병인 4가 태어났으므로 열성 (O). ㄴ. X 연관 열성이라면 유전병인 딸 4의 아버지 1도 유전병이어야 한다. 1이 정상이므로 상염색체 열성 (X). ㄷ. 1과 2는 모두 Aa. 3은 정상이므로 Aa일 확률 2/3. 5는 유전병인 딸 8(aa)에게 a를 주었으므로 반드시 Aa(확률 1) → 다르다 (X).","table":null,"fig":"C1"},{"id":"C2","type":"essay","q":"그림은 어떤 집안의 유전병 가계도이다. 이 유전병은 대립유전자 A와 a에 의해 결정되며, A는 a에 대해 완전 우성이다. 1은 유전병 대립유전자를 갖지 않는다. (1) 이 유전병의 유전 양식을 쓰고 근거를 두 가지 서술하시오. (2) 2, 4, 7의 유전자형을 쓰시오(7은 가능한 경우와 그 확률). (3) 7이 정상 남자와 결혼하여 아이를 낳을 때, 그 아이가 유전병일 확률을 구하시오.","answer":"(1) X 염색체 열성 유전. 근거 ① 정상인 1과 2 사이에서 유전병인 3이 태어났으므로 열성이다. ② 상염색체 열성이라면 3(aa)은 1에게서 a를 받아야 하는데 1은 a가 없으므로 모순 → X 연관 열성(3은 어머니 2에게서 Xᵃ를 받음). (2) 2 = XᴬXᵃ(3에게 Xᵃ를 줌), 4 = XᴬXᵃ(유전병 아들 6에게 Xᵃ를 줌), 7 = XᴬXᴬ(1/2) 또는 XᴬXᵃ(1/2)(아버지 5에게서 Xᴬ, 어머니 4에게서 Xᴬ 또는 Xᵃ). (3) 7이 보인자일 확률 1/2 × 아이가 아들일 확률 1/2 × 아들이 Xᵃ를 받을 확률 1/2 = 1/8.","table":null,"fig":"C2"},{"id":"C3","type":"mcq","q":"그림은 어떤 집안의 유전 형질 ㉠에 대한 가계도이고, 표는 구성원 2, 3, 5의 체세포 1개당 대립유전자 t의 DNA 상대량을 나타낸 것이다. ㉠은 대립유전자 T와 t에 의해 결정되며, T는 t에 대해 완전 우성이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, 돌연변이는 고려하지 않는다.)","statements":["ㄱ. ㉠은 우성 형질이다.","ㄴ. ㉠의 유전자는 X 염색체에 있다.","ㄷ. 4와 5 사이에서 딸이 태어날 때, 이 딸에게서 ㉠이 나타날 확률은 1/4이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":2,"explain":"ㄱ. 2는 t가 2(동형접합 tt)인데 정상이므로 정상 = t의 표현형 → ㉠은 T의 표현형 = 우성 (O). ㄴ. 3은 정상(tt 표현형) 남자인데 t가 1이다. 상염색체라면 정상 남자는 tt라서 2여야 하므로 모순 → X 염색체 (O). ㄷ. 4는 ㉠ 발현 여자로 아버지 1(XᵀY)에게서 Xᵀ, 어머니 2(XᵗXᵗ)에게서 Xᵗ → XᵀXᵗ. 5는 XᵗY. 딸은 5에게서 Xᵗ, 4에게서 Xᵀ 또는 Xᵗ → ㉠ 확률 1/2 (X).","table":{"head":["구성원","2","3","5"],"rows":[["t의 DNA 상대량","2","1","1"]]},"fig":"C3"},{"id":"C4","type":"essay","q":"그림은 어떤 집안의 유전 형질 ㉠과 ㉡에 대한 가계도이다. ㉠은 대립유전자 H와 h, ㉡은 대립유전자 R과 r에 의해 결정되며, H는 h에, R은 r에 대해 완전 우성이다. ㉠과 ㉡의 유전자 중 하나는 상염색체에, 다른 하나는 X 염색체에 있다. 6은 h를 가진다. (1) ㉠과 ㉡ 중 X 염색체에 있는 형질을 고르고, 우열과 함께 근거를 서술하시오. (2) 4가 h를 가질 확률과 r을 가질 확률을 각각 구하시오. (3) 5와 6 사이에서 아이가 태어날 때, 이 아이에게서 ㉠과 ㉡이 모두 나타날 확률을 구하시오.","answer":"(1) ㉡이 X 염색체 열성. ㉠: 정상인 1, 2 사이에서 ㉠인 딸 3이 태어났으므로 열성이다. X 연관 열성이라면 ㉠인 딸 3의 아버지 1도 ㉠이어야 하는데 1은 ㉠이 없으므로 ㉠은 상염색체 열성 → ㉡이 X 염색체에 있다. ㉡이 X 연관 우성이라면 ㉡인 아버지 1의 딸(3, 5)은 모두 ㉡이어야 하는데 정상이므로 ㉡은 X 연관 열성이다. (2) ㉠: 1, 2는 모두 Hh이고 4는 정상이므로 h를 가질 확률 2/3. ㉡: 4는 정상 남자 XᴿY이므로 r을 가질 확률 0. (3) ㉠: 5가 Hh일 확률 2/3, 6은 Hh → 2/3 × 1/4 = 1/6. ㉡: 5는 아버지 1에게서 Xʳ를 받은 보인자 XᴿXʳ, 6은 XᴿY → 아이가 ㉡일 확률 = 아들 1/2 × Xʳ 1/2 = 1/4. 두 유전자는 서로 다른 염색체에 있으므로 1/6 × 1/4 = 1/24.","table":null,"fig":"C4"},{"id":"C5","type":"essay","q":"그림은 어떤 집안의 ABO식 혈액형과 적록색맹에 대한 가계도이다. (1) 1과 2의 ABO식 혈액형 유전자형을 쓰시오. (2) 4가 적록색맹 보인자일 확률을 구하시오. (3) 4와 5 사이에서 아이가 태어날 때, 이 아이가 B형이면서 적록색맹일 확률을 구하시오.","answer":"(1) O형인 3(ii)이 태어났으므로 1, 2 모두 i를 가진다 → 1 = Iᴬi, 2 = Iᴮi. (AB형 4도 이와 모순되지 않는다.) (2) 적록색맹 아들 3(XʳY)은 Xʳ를 어머니 2에게서 받았으므로 2 = XᴿXʳ. 4는 아버지 1(XᴿY)에게서 Xᴿ, 어머니에게서 Xᴿ 또는 Xʳ → 보인자일 확률 1/2. (3) ABO: 4(IᴬIᴮ) × 5(ii) → Iᴬi, Iᴮi가 1/2씩 → B형 1/2. 적록색맹: 4가 보인자 1/2 × 아들 1/2 × Xʳ 1/2 = 1/8. 두 유전자는 다른 염색체에 있으므로 1/2 × 1/8 = 1/16.","table":null,"fig":"C5"},{"id":"C6","type":"essay","q":"대머리는 상염색체에 있는 대립유전자 B(대머리)와 b(정상)에 의해 결정된다. 남자는 B를 1개 이상 가지면 대머리이고, 여자는 BB일 때만 대머리이다. 그림은 어떤 집안의 대머리 가계도이다. (1) 1~5의 유전자형을 쓰시오. (2) 1과 2 사이에서 아이가 한 명 더 태어날 때, 이 아이가 대머리일 확률을 구하시오. (3) 4와 5 사이에서 태어나는 아들과 딸이 대머리일 확률을 각각 구하시오.","answer":"(1) 4는 대머리 여자이므로 BB → 1과 2가 모두 B를 가진다. 3은 정상 남자이므로 bb → 1과 2가 모두 b를 가진다. 따라서 1 = Bb, 2 = Bb, 3 = bb, 4 = BB, 5는 정상 남자이므로 bb. (2) Bb × Bb → BB : Bb : bb = 1 : 2 : 1. 아들은 BB·Bb면 대머리(3/4), 딸은 BB만 대머리(1/4) → 1/2 × 3/4 + 1/2 × 1/4 = 1/2. (3) BB × bb → 자녀는 모두 Bb. 아들은 모두 대머리(확률 1), 딸은 모두 정상(확률 0).","table":null,"fig":"C6"},{"id":"C7","type":"mcq","q":"그림은 어떤 집안의 유전병 가계도이다. 이 유전병은 대립유전자 D와 d에 의해 결정되며, D는 d에 대해 완전 우성이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, 돌연변이는 고려하지 않는다.)","statements":["ㄱ. 이 유전병은 우성 형질이다.","ㄴ. 이 유전병 유전자는 X 염색체에 있다.","ㄷ. 7의 동생이 태어날 때, 이 아이가 유전병일 확률은 3/4이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":3,"explain":"ㄱ. 유전병인 5와 6 사이에서 정상인 7이 태어났으므로 우성 (O). ㄴ. X 연관 우성이라면 유전병인 아버지 1의 딸은 모두 유전병이어야 하는데 3이 정상이다(5와 딸 7도 같은 이유로 모순) → 상염색체 우성 (X). ㄷ. 7(dd)이 있으므로 5와 6은 모두 Dd → 유전병일 확률 3/4 (O).","table":null,"fig":"C7"},{"id":"C8","type":"essay","q":"그림은 어떤 집안의 가계도이다. 1~4의 ABO식 혈액형은 모두 다르고, 1과 3의 ABO식 혈액형 유전자형은 이형 접합성이며, 4는 A형이다. (1) 1~4의 혈액형과 유전자형을 쓰시오. (2) 3과 AB형인 남자 사이에서 아이가 태어날 때, 이 아이가 B형일 확률을 구하시오.","answer":"(1) 4가 A형이므로 1, 2, 3은 B형, AB형, O형 중 하나씩이다. 이형 접합성인 1과 3은 O형(ii)일 수 없으므로 {1, 3} = {B형(Iᴮi), AB형}, 2 = O형(ii). 2가 ii이면 자녀는 모두 i를 받아 AB형이 될 수 없으므로 3 = B형(Iᴮi), 1 = AB형(IᴬIᴮ). 4 = A형(Iᴬi). (2) Iᴮi × IᴬIᴮ → IᴬIᴮ(AB), IᴮIᴮ(B), Iᴬi(A), Iᴮi(B) → B형 2/4 = 1/2.","table":null,"fig":"C8"},{"id":"C9","type":"mcq","q":"그림은 어떤 집안의 유전병 가계도이다. 이 유전병은 대립유전자 A와 a에 의해 결정되며, A는 a에 대해 완전 우성이다. 1의 체세포 1개당 a의 DNA 상대량은 1이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, 돌연변이는 고려하지 않는다.)","statements":["ㄱ. 이 유전병은 열성 형질이다.","ㄴ. 이 유전병 유전자는 상염색체에 있다.","ㄷ. 4의 체세포 1개당 a의 DNA 상대량이 1일 확률은 2/3이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":5,"explain":"ㄱ. 정상인 1, 2 사이에서 유전병인 3이 태어났으므로 열성 (O). ㄴ. X 연관 열성이라면 정상 남자 1은 XᴬY로 a가 0이어야 하는데 1이므로 모순 → 상염색체 (O). ㄷ. 1, 2는 Aa이고 4는 정상이므로 Aa일 확률 2/3 (O).","table":null,"fig":"C9"},{"id":"C10","type":"essay","q":"표는 일란성 쌍둥이와 이란성 쌍둥이에서 조사한 형질의 일치도(%)이다. (1) 유전보다 환경의 영향을 더 많이 받는 형질을 고르고 근거를 쓰시오. (2) 교과서에서는 뇌전증의 유전력을 80%라고 했다. 일치도로 이 값이 나오는 계산을 쓰고, 같은 방법으로 유전력이 가장 높은 형질을 고르시오. (3) 유전력을 한 개인에게 적용할 수 없는 이유를 쓰시오.","answer":"(1) 암. 유전자 구성이 같은 일란성의 일치도(12%)가 이란성(15%)보다 높지 않으므로 유전보다 환경의 영향이 크다. (2) 유전력 = 2 × (일란성 일치도 − 이란성 일치도) = 2 × (0.59 − 0.19) = 0.80. 심장마비(여자) 2 × (0.44 − 0.14) = 0.60, 숨관가지 천식 2 × (0.47 − 0.24) = 0.46, 류머티즘성 관절염 2 × (0.32 − 0.06) = 0.52 → 유전력이 가장 높은 형질은 뇌전증. (3) 유전력은 집단 안에서 형질의 차이가 유전 때문인지 환경 때문인지를 나타낸 집단 수준의 값이고, 같은 형질이라도 집단의 환경이 다르면 달라지기 때문이다.","table":{"head":["형질","일란성 (%)","이란성 (%)"],"rows":[["심장마비(여자)","44","14"],["숨관가지 천식","47","24"],["암","12","15"],["뇌전증(간질)","59","19"],["류머티즘성 관절염","32","6"]]},"fig":null},{"id":"C11","type":"essay","q":"치사 유전에 대한 다음 물음에 답하시오. (1) 쥐의 털색에서 황색 대립유전자 Y는 회색 대립유전자 y에 대해 우성이고, YY는 태어나기 전에 죽는다. Yy끼리 교배했을 때 태어난 자손의 표현형 비와 그 이유를 쓰시오. (2) 혈우병 대립유전자 Xʰ는 X 염색체에 있고 정상 대립유전자에 대해 열성이며, XʰXʰ인 여자아이는 배아 단계에서 사망한다고 한다. 혈우병 보인자 여자와 혈우병 남자 사이에서 태어난 아이 중 혈우병인 아이의 비율과, 태어난 딸의 유전자형을 쓰시오. (3) 혈우병 A, B, C 중 여자아이에게서 열성 치사가 나타나는 것을 고르고 이유를 쓰시오.","answer":"(1) YY : Yy : yy = 1 : 2 : 1 중 YY가 치사 → 황색(Yy) : 회색(yy) = 2 : 1. Y는 털색에서는 우성이지만 치사에 대해서는 열성(2개일 때만 치사)으로 작용한다. (2) XᴴXʰ × XʰY → XᴴY, XʰY, XᴴXʰ, XʰXʰ(사망)가 1/4씩. 태어난 아이 3종류 중 혈우병은 XʰY → 1/3. 태어난 딸은 모두 XᴴXʰ(보인자). (3) 혈우병 A, B. 대립유전자가 X 염색체에 있어 여자가 XʰXʰ가 될 때 치사가 나타난다. 혈우병 C는 상염색체에 있다.","table":null,"fig":null}]},{"id":"D","title":"D. 다인자 유전","desc":"독립·연관(상인/상반), 역추론, 단일 형질과 연관.","questions":[{"id":"D1","type":"mcq","q":"어떤 동물의 눈 색은 서로 다른 상염색체에 있는 3쌍의 대립유전자 A와 a, B와 b, D와 d에 의해 결정되며, 표현형은 대문자로 표시되는 대립유전자의 수에 의해서만 결정되고 그 수가 다르면 표현형도 다르다. 유전자형이 AaBbDd인 P와 AaBbdd인 Q를 교배하여 자손을 얻었다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. 자손에서 나타날 수 있는 표현형은 최대 6가지이다.","ㄴ. 자손이 Q와 같은 표현형을 나타낼 확률은 5/16이다.","ㄷ. 자손의 대문자 대립유전자 수가 4 이상일 확률은 3/16이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":5,"explain":"고정 대문자 k = 0, 변동 자리 m = A(2) + B(2) + D(P 1개) = 5. ㄱ. 대문자 0~5 → 6가지 (O). ㄴ. Q는 대문자 2개 → ₅C₂/2⁵ = 10/32 = 5/16 (O). ㄷ. (₅C₄ + ₅C₅)/32 = (5 + 1)/32 = 3/16 (O).","table":null,"fig":null},{"id":"D2","type":"essay","q":"D1과 같은 형질에서 유전자형이 AaBbDD인 P와 AabbDd인 Q를 교배하였다. (1) 자손에서 나타날 수 있는 표현형은 최대 몇 가지인가? (2) 자손이 P와 같은 표현형일 확률을 구하시오. (3) 자손의 눈 색이 Q보다 짙을(대문자가 더 많을) 확률을 구하시오. (4) 자손이 aabbdd와 같은 표현형일 확률을 구하고 이유를 쓰시오.","answer":"P의 D 자리(DD)에서 대문자 1개 고정(k = 1). 변동 자리: A(P, Q) 2 + B(P) 1 + D(Q) 1 = 4. 전체 2⁴ = 16. (1) 대문자 1~5 → 5가지. (2) P의 대문자 4개 → n − k = 3 → ₄C₃/16 = 4/16 = 1/4. (3) Q의 대문자 2개 → 3, 4, 5개일 확률 = (₄C₂ + ₄C₃ + ₄C₄)/16 = (6 + 4 + 1)/16 = 11/16. (4) 0. P가 DD라서 자손은 반드시 D를 1개 이상 받으므로 대문자 수가 0이 될 수 없다.","table":null,"fig":null},{"id":"D3","type":"essay","q":"D1과 같은 형질에서 (1) 유전자형이 AaBbDd인 P와 개체 Q를 교배하였더니 자손의 대문자 수 분포가 1개 : 2개 : 3개 : 4개 : 5개 = 1 : 4 : 6 : 4 : 1이었다. Q의 대문자 수와, Q의 유전자형으로 가능한 것을 모두 쓰시오. (2) P와 개체 R을 교배하였더니 자손의 표현형은 4가지이고 대문자 수는 2~5개였다. R의 유전자형으로 가능한 것을 모두 쓰시오.","answer":"(1) 1 : 4 : 6 : 4 : 1 = ₄Cₖ 꼴 → 변동 자리 4개, 범위가 1부터 → 고정 대문자 1개. P가 변동 3개를 주므로 Q는 변동 1개(이형접합 1쌍) + 고정 1개(우성 동형 1쌍) + 나머지 1쌍은 열성 동형이다. Q의 대문자 수 = 1 + 2 = 3개. 가능한 Q: AaBBdd, AabbDD, AABbdd, aaBbDD, AAbbDd, aaBBDd (6가지). (2) 표현형 4가지 = 변동 자리 3개(모두 P의 것) → R은 이형접합 자리가 없다. 범위가 2부터 → 고정 대문자 2개 → R은 우성 동형 2쌍 + 열성 동형 1쌍: AABBdd, AAbbDD, aaBBDD.","table":null,"fig":null},{"id":"D4","type":"mcq","q":"D1과 같은 형질에서 A와 B는 같은 염색체에, D는 다른 염색체에 있다. P는 A와 B가 같은 염색체에 함께 있는 AaBbDd이고, Q는 A와 B가 같은 염색체에 함께 있는 AaBbdd이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, 교차는 고려하지 않는다.)","statements":["ㄱ. 자손에서 나타날 수 있는 표현형은 최대 6가지이다.","ㄴ. 자손의 표현형이 P와 같을 확률은 3/8이다.","ㄷ. 자손의 대문자 수가 0일 확률은 1/8이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":3,"explain":"P(AB/ab, Dd)의 생식세포 대문자 수 3, 2, 1, 0이 1/4씩. Q(AB/ab, dd)는 ABd(2), abd(0)가 1/2씩. 자손: 0:1:2:3:4:5 = 1:1:2:2:1:1 (÷8). ㄱ. 0~5 → 6가지 (O). ㄴ. P는 대문자 3개 → 2/8 = 1/4 (X). ㄷ. 1/8 (O).","table":null,"fig":null},{"id":"D5","type":"essay","q":"D1과 같은 형질에서 P는 AaBbDd이고, A와 B는 같은 염색체에, D는 다른 염색체에 있다. P를 자가교배하였더니 자손의 표현형이 최대 3가지였다. (1) P에서 A와 B의 배치(상인/상반)를 쓰고 근거를 서술하시오. (2) P와, A와 B가 같은 염색체에 함께 있는(상인) AaBbDd인 Q를 교배할 때, 자손의 표현형은 최대 몇 가지이며, 대문자 3개인 자손의 확률은 얼마인가? (단, 교차는 고려하지 않는다.)","answer":"(1) 상반(Ab/aB). 상인이면 생식세포 대문자 수가 3, 2, 1, 0이라 자손은 0~6의 7가지가 된다. 상반이면 생식세포가 AbD·aBD(2), Abd·aBd(1)뿐이라 자손은 2, 3, 4의 3가지 → 조건과 일치. (2) P의 생식세포 2, 1(각 1/2), Q의 생식세포 3, 2, 1, 0(각 1/4) → 자손 대문자 1~5 → 5가지. 3개가 되는 경우는 (2, 1), (1, 2) → 2/8 = 1/4.","table":null,"fig":null},{"id":"D6","type":"mcq","q":"사람의 유전 형질 ㉠은 대립유전자 A와 a, B와 b, D와 d에 의해 결정되며, 표현형은 대문자 대립유전자 수에 의해서만 결정되고 그 수가 다르면 표현형도 다르다. ㉡은 대립유전자 T와 t에 의해 결정되며 T는 t에 대해 완전 우성이다. 남자 P와 여자 Q의 상동 염색체 두 쌍에 있는 유전자 배치는 다음과 같다.\n\n• P: [A B] / [a b], [D T] / [d t]\n• Q: [A b] / [a B], [D t] / [d T]\n\n이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, 교차와 돌연변이는 고려하지 않는다.)","statements":["ㄱ. P와 Q의 ㉠의 표현형은 같다.","ㄴ. P와 Q 사이에서 태어나는 자손에서 나타날 수 있는 ㉠과 ㉡의 표현형 조합은 최대 7가지이다.","ㄷ. 자손의 ㉠과 ㉡의 표현형이 모두 P와 같을 확률은 1/4이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":5,"explain":"ㄱ. P, Q 모두 대문자 3개 (O). P의 생식세포: AB·DT(3, T), AB·dt(2, t), ab·DT(1, T), ab·dt(0, t)가 1/4씩. Q의 생식세포: Ab·Dt 또는 aB·Dt(2, t), Ab·dT 또는 aB·dT(1, T)가 1/2씩. 자손(각 1/8): (5, T_), (4, T_), (4, tt), (3, T_), (3, T_), (2, T_), (2, tt), (1, T_). ㄴ. 서로 다른 조합 7가지 (O). ㄷ. P는 (3, T_) → 2/8 = 1/4 (O). 두 형질을 따로 구해 곱하면 1/4 × 3/4 = 3/16로 틀린다 — T가 D와 연관되어 있기 때문.","table":null,"fig":null},{"id":"D7","type":"essay","q":"사람의 피부색은 서로 다른 상염색체에 있는 3쌍의 대립유전자 A/a, B/b, D/d에 의해 결정되며, 대문자 대립유전자 수가 많을수록 피부색이 짙다. 부모의 피부색은 같고, 첫째의 유전자형은 aabbdd, 둘째의 유전자형은 AABBDd이다. (1) 부모의 유전자형과 근거를 쓰시오. (2) 셋째가 부모와 같은 피부색일 확률을 구하시오. (3) 셋째의 피부색이 둘째보다 짙을 확률을 구하시오.","answer":"(1) 부모 모두 AaBbDd. 첫째(aabbdd)가 있으므로 부모 모두 a, b, d를 가진다. 둘째(AABB)가 있으므로 부모 모두 A, B를 가진다 → 둘 다 Aa, Bb. D 자리는 Dd 또는 dd인데 피부색(대문자 수)이 같으므로 둘 다 Dd이거나 둘 다 dd이고, 둘째가 D를 가지므로 둘 다 Dd. (2) 부모는 대문자 3개 → ₆C₃/64 = 20/64 = 5/16. (3) 둘째는 대문자 5개 → 6개일 확률 = ₆C₆/64 = 1/64.","table":null,"fig":null},{"id":"D8","type":"essay","q":"유전자형이 AaBbCc인 부모 사이에서 태어나는 자손의 피부색을 생각하자(대문자 A, B, C의 수가 많을수록 피부색이 검다). (1) 한 사람에게서 만들어질 수 있는 생식세포의 유전자형을 모두 쓰시오. (2) 자손의 표현형은 몇 가지이며, 가장 많이 나타나는 표현형과 그 확률은? (3) 대문자 0개, 6개인 자손의 확률은 각각 얼마인가? (4) 실제 사람의 피부색이 7가지보다 훨씬 다양하게 나타나는 이유 두 가지를 쓰시오.","answer":"(1) ABC, ABc, AbC, Abc, aBC, aBc, abC, abc (2 × 2 × 2 = 8가지). (2) 대문자 0~6개 → 7가지. 가장 많은 것은 대문자 3개, 20/64 (분포 1 : 6 : 15 : 20 : 15 : 6 : 1). (3) 각각 1/64. (4) ① 피부색을 결정하는 대립유전자는 3쌍보다 훨씬 많다. ② 환경의 영향을 받는다.","table":null,"fig":null},{"id":"D9","type":"mcq","q":"D1과 같은 형질에서 A/a, B/b, D/d 중 일부는 같은 염색체에 있을 수 있다. 유전자형이 AaBbDd인 P를 자가교배하였더니 자손의 표현형은 7가지였고, 대문자 3개인 자손의 비율은 1/4이었다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은? (단, 교차는 고려하지 않는다.)","statements":["ㄱ. 세 유전자 중 두 유전자는 같은 염색체에 있다.","ㄴ. 같은 염색체에 있는 두 유전자는 대문자 대립유전자끼리 같은 염색체에 있다(상인).","ㄷ. P에서 만들어지는 생식세포의 유전자형은 최대 8가지이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":2,"explain":"세 유전자가 모두 독립이면 7가지이지만 대문자 3개 확률은 20/64. 두 유전자가 상인 연관이면 생식세포 대문자 3:2:1:0 = 1:1:1:1 → 자손 7가지, 3개일 확률 4/16 = 1/4로 일치. 상반이면 3가지, 세 유전자가 한 염색체에 있으면 3가지 이하라 불가능. ㄱ (O), ㄴ (O). ㄷ. 연관된 두 유전자는 함께 이동하므로 생식세포는 4가지 (X).","table":null,"fig":null}]},{"id":"E","title":"E. 연관·교차·유전자 지도","desc":"교차율, 이점·삼점 검정교배, 간섭.","questions":[{"id":"E1","type":"essay","q":"양성잡종 AaBb를 자가교배한 결과가 (가)와 (나)와 같았다. 각각에 대해 A와 B의 배치(상인/상반), 생식세포 비 AB : Ab : aB : ab, 교차율을 구하시오.","answer":"(가) aabb 비율 = 1225/10000 = (0.35)² → ab 생식세포 0.35 > 1/4 → 상인. AB : Ab : aB : ab = 35 : 15 : 15 : 35 = 7 : 3 : 3 : 7, 교차율 = 1 − 2 × 0.35 = 30%. (나) aabb = 40/1000 = (0.2)² → ab 0.2 < 1/4 → 상반. 교차율 = 2 × 0.2 = 40%, AB : Ab : aB : ab = 20 : 30 : 30 : 20 = 2 : 3 : 3 : 2.","table":{"head":["결과","A_B_","A_bb","aaB_","aabb"],"rows":[["(가)","6225","1275","1275","1225"],["(나)","540","210","210","40"]]},"fig":null},{"id":"E2","type":"mcq","q":"유전자형이 AaBb인 개체를 aabb와 검정교배하여 얻은 자손의 수가 다음과 같았다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. 이 개체에서 A와 B는 같은 염색체에 있다.","ㄴ. A와 B 사이의 교차율은 20%이다.","ㄷ. 이 개체에서 만들어지는 생식세포 중 AB의 비율은 10%이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":4,"explain":"검정교배 자손 비 = 생식세포 비. 많은 쪽(Aabb, aaBb)이 부모형 → A와 b, a와 B가 같은 염색체(상반) (ㄱ X). 재조합형(AaBb + aabb) = 100/500 = 20% (ㄴ O). AB = 50/500 = 10% (ㄷ O).","table":{"head":["자손","AaBb","Aabb","aaBb","aabb"],"rows":[["개체 수","50","200","200","50"]]},"fig":null},{"id":"E3","type":"essay","q":"세 유전자 A, B, C는 같은 염색체에 있다. 이점 검정교배 결과는 다음과 같다.\n\n• AaBb × aabb → AaBb : Aabb : aaBb : aabb = 8 : 2 : 2 : 8\n• AaCc × aacc → AaCc : Aacc : aaCc : aacc = 3 : 17 : 17 : 3\n• BbCc × bbcc → BbCc : Bbcc : bbCc : bbcc = 67 : 33 : 33 : 67\n\n(1) A–B, A–C, B–C의 교차율을 구하시오. (2) 유전자 순서와 지도 거리를 쓰시오. (3) B와 C 사이의 이중교차율을 구하시오. (4) 일치계수와 간섭률을 구하시오.","answer":"(1) A–B = 4/20 = 20%, A–C = 6/40 = 15%, B–C = 66/200 = 33%. (2) 가장 큰 B–C가 양 끝 → B —20 cM— A —15 cM— C (B–C 지도 거리 35 cM). (3) (20 + 15 − 33)/2 = 1%. (4) 예상 이중교차 = 0.20 × 0.15 = 3% → 일치계수 = 1/3 ≈ 0.33, 간섭률 = 1 − 1/3 ≈ 0.67.","table":null,"fig":null},{"id":"E4","type":"essay","q":"표는 삼성잡종 AaBbCc를 aabbcc와 검정교배하여 얻은 자손 1000개체의 표현형이다(대문자는 우성, 소문자는 열성 표현형). (1) 삼성잡종의 두 상동 염색체에 있는 대립유전자 배치를 쓰시오. (2) 세 유전자의 순서를 쓰시오. (3) A–B, B–C의 지도 거리와 A–C 사이의 관찰된 교차율을 구하시오. (4) 관찰된 이중교차율, 예상된 이중교차율, 일치계수, 간섭률을 구하시오.","answer":"(1) 가장 많은 AbC(355)와 aBc(355)가 부모형 → AbC / aBc. (2) 가장 적은 ABC·abc(5, 5)가 이중교차형. 부모형 AbC와 비교하면 B만 바뀌었으므로 B가 가운데 → A–B–C. (3) A–B: 재조합 ABc·abC(95+95) + 이중교차 10 = 200/1000 = 20 cM. B–C: Abc·aBC(45+45) + 10 = 100/1000 = 10 cM. A–C 관찰 교차율: 190 + 90 = 280/1000 = 28% (지도 거리는 30 cM). (4) 관찰 1%, 예상 0.20 × 0.10 = 2%, 일치계수 = 0.5, 간섭률 = 0.5.","table":{"head":["표현형","개체 수","표현형","개체 수"],"rows":[["ABC","5","aBC","45"],["ABc","95","aBc","355"],["AbC","355","abC","95"],["Abc","45","abc","5"]]},"fig":null},{"id":"E5","type":"mcq","q":"유전자 지도 거리에 따른 재조합 빈도를 세 경우 a, b, c에 대해 나타냈다. a는 원점을 지나는 기울기 1의 직선이고, b와 c는 거리가 가까울 때 a와 거의 겹치다가 멀어질수록 a보다 아래로 휘는 곡선이며, 같은 거리에서 재조합 빈도는 b > c이다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. a에서는 다중교차가 일어나지 않는다.","ㄴ. 염색체 간섭은 c가 b보다 크다.","ㄷ. 거리가 아주 멀어지면 b와 c의 재조합 빈도는 100%에 가까워진다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":1,"explain":"ㄱ. 지도 거리 = 재조합 빈도 → 다중교차 없음 (O). ㄴ. c가 거리와의 차이가 더 크다 = 다중교차가 더 많다 = 간섭이 더 작다 (X). ㄷ. 재조합 빈도는 50%에 수렴한다 (X).","table":null,"fig":null}]},{"id":"F","title":"F. DNA 복제·유전물질·돌연변이","desc":"메셀슨·스탈, 유전물질 실험, 효소, 생어법, 돌연변이, 배수성.","questions":[{"id":"F1","type":"mcq","q":"¹⁵N 배지에서 여러 세대 배양한 대장균(G0)을 ¹⁴N 배지로 옮겨 1회씩 분열시켜 G1, G2, G3을 얻고, 각 세대의 DNA를 CsCl 밀도 기울기 원심분리하였다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. G1의 DNA는 모두 중간 밀도 위치에 띠를 나타낸다.","ㄴ. G3에서 중간 밀도 DNA : 가벼운 DNA = 1 : 4이다.","ㄷ. DNA가 보존적으로 복제된다면 G2에서 무거운 DNA : 가벼운 DNA = 1 : 3으로 나타날 것이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":3,"explain":"ㄱ. 반보존적 복제 → G1은 모두 ¹⁵N-¹⁴N (O). ㄴ. G3: DNA 8개 중 중간 2, 가벼운 6 → 1 : 3 (X). ㄷ. 보존적이라면 원래 ¹⁵N DNA 1개가 그대로 남고 나머지 3개는 모두 ¹⁴N → 1 : 3 (O).","table":null,"fig":null},{"id":"F2","type":"essay","q":"메셀슨·스탈 실험에서 (1) ¹⁴N 배지에서 n세대 배양한 뒤 중간 밀도 DNA와 가벼운 DNA의 비를 n으로 나타내시오. (2) G2의 DNA를 열처리해 단일 가닥으로 만든 뒤 원심분리하면 ¹⁵N 가닥과 ¹⁴N 가닥의 비는? (3) G1의 대장균을 다시 ¹⁵N 배지로 옮겨 1회 분열시키면 어떤 띠가 어떤 비로 나타나는가?","answer":"(1) 전체 2ⁿ개 중 중간 2개, 가벼운 2ⁿ − 2개 → 2 : (2ⁿ − 2) = 1 : (2ⁿ⁻¹ − 1). (2) G2는 DNA 4개 = 가닥 8개 중 ¹⁵N 가닥 2개(처음 가닥), ¹⁴N 가닥 6개 → 1 : 3. (3) G1 DNA는 모두 ¹⁵N-¹⁴N. ¹⁵N 배지에서 복제하면 ¹⁵N 가닥 + 새 ¹⁵N 가닥 = 무거운 DNA, ¹⁴N 가닥 + 새 ¹⁵N 가닥 = 중간 DNA → 무거운 : 중간 = 1 : 1.","table":null,"fig":null},{"id":"F3","type":"mcq","q":"유전물질을 밝힌 실험에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. 그리피스 실험에서 열처리한 S형균과 살아 있는 R형균을 함께 주입한 생쥐에서는 살아 있는 S형균이 발견된다.","ㄴ. 에이버리 실험에서 RNA 분해효소를 처리한 S형균 추출물은 R형균을 S형균으로 형질전환시키지 못한다.","ㄷ. 허시와 체이스 실험에서 ³⁵S로 단백질을 표지한 파지를 감염시키면 새로 만들어진 파지에서 방사선이 검출된다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":1,"explain":"ㄱ (O). ㄴ. 형질전환을 막는 것은 DNA 분해효소뿐이다. RNA 분해효소를 처리해도 형질전환이 일어난다 (X). ㄷ. 단백질 껍질은 대장균 안으로 들어가지 않으므로 새 파지에서 ³⁵S가 검출되지 않는다 (X).","table":null,"fig":null},{"id":"F4","type":"essay","q":"허시와 체이스의 실험에 대해 다음을 쓰시오. (1) ³⁵S와 ³²P로 각각 단백질과 DNA를 구별해 표지할 수 있는 이유 (2) 교반기를 세게 돌리는 이유 (3) 원심분리 후 상층액과 침전물에 있는 것 (4) ³²P로 표지한 실험에서 방사선이 검출되는 곳과 이 실험의 결론","answer":"(1) S는 단백질(시스테인, 메티오닌)에는 있지만 DNA에는 없고, P는 DNA에는 있지만 단백질에는 거의 없다. (2) 대장균 표면에 붙어 있는 파지(단백질 껍질)를 떼어내기 위해. (3) 상층액: 가벼운 파지 단백질 껍질. 침전물: 크고 무거운 대장균(안으로 들어간 파지 DNA 포함). (4) 침전물. 대장균 안으로 들어가 새 파지를 만드는 유전물질은 단백질이 아니라 DNA이다.","table":null,"fig":null},{"id":"F5","type":"mcq","q":"DNA 복제에 관여하는 효소에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. 프라이메이스는 DNA 중합효소의 일종으로 DNA 프라이머를 합성한다.","ㄴ. 대장균의 DNA 중합효소 I은 5′→3′ 핵산말단가수분해효소 활성으로 RNA 프라이머를 제거한다.","ㄷ. 텔로머레이스는 자신이 가진 RNA를 주형으로 텔로미어 DNA의 3′ 말단을 연장한다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":4,"explain":"ㄱ. 프라이메이스는 RNA 중합효소의 일종이고 RNA 프라이머를 합성한다 (X). ㄴ (O). ㄷ (O) — 텔로머레이스는 RNA 주형을 가진 역전사효소.","table":null,"fig":null},{"id":"F6","type":"essay","q":"표는 어떤 DNA 단일 가닥을 주형으로 생어 방법을 수행한 뒤 전기영동한 겔에서 띠가 나타난 위치이다(■ = 띠, 위치 1이 가장 아래). 프라이머 이후의 서열만 생각한다. (1) 새로 합성된 가닥의 염기서열을 5′→3′ 방향으로 쓰시오. (2) 주형 가닥의 염기서열을 5′→3′ 방향으로 쓰시오. (3) ddGTP를 넣은 튜브에서 생긴 조각은 프라이머 뒤로 각각 몇 개의 뉴클레오타이드를 가지는가?","answer":"(1) 아래(짧은 조각)부터 위로 읽으면 5′-ATGGCTAC-3′. (2) 상보적·역평행 → 3′-TACCGATG-5′ = 5′-GTAGCCAT-3′. (3) G는 3번째와 4번째 위치 → 3개, 4개.","table":{"head":["위치","ddA","ddT","ddG","ddC"],"rows":[["8 (위)","","","","■"],["7","■","","",""],["6","","■","",""],["5","","","","■"],["4","","","■",""],["3","","","■",""],["2","","■","",""],["1 (아래)","■","","",""]]},"fig":null},{"id":"F7","type":"essay","q":"어떤 유전자의 비주형 가닥(암호화 가닥) 염기서열은 5′-ATG TGG CAG TTC GAA-3′이다(첫 번째 A를 1번으로 센다). 코돈: AUG 메티오닌, UGG 트립토판, UGA 종결, CAG·CAA 글루타민, UUC 페닐알라닌, UUA 류신, GAA 글루탐산, GGC 글라이신, AGU·UCG 세린. 다음 돌연변이 (가)~(마)에 대해 아미노산 서열의 변화와 돌연변이의 종류를 쓰시오.\n\n• (가) 6번째 G → A\n• (나) 9번째 G → A\n• (다) 12번째 C → A\n• (라) 4번째 T 결실\n• (마) 4~6번째 TGG 결실","answer":"정상: AUG UGG CAG UUC GAA → 메티오닌-트립토판-글루타민-페닐알라닌-글루탐산. (가) UGG → UGA(종결) → 메티오닌에서 끝남 → 넌센스 돌연변이. (나) CAG → CAA, 글루타민 그대로 → 침묵 돌연변이. (다) UUC → UUA, 페닐알라닌 → 류신 → 미스센스 돌연변이(둘 다 소수성이라 단백질 기능이 유지되면 중립 돌연변이). (라) AUG GGC AGU UCG AA… → 메티오닌-글라이신-세린-세린… → 틀이동 돌연변이. (마) AUG CAG UUC GAA → 메티오닌-글루타민-페닐알라닌-글루탐산, 틀은 유지되고 트립토판 1개만 빠짐.","table":null,"fig":null},{"id":"F8","type":"mcq","q":"2n = 22인 수박으로 씨 없는 수박을 만들었다. 또 2n = 14인 종 A와 2n = 18인 종 B 사이의 잡종에서 염색체가 배가된 이종 배수체 C를 얻었다. 이에 대한 설명으로 옳은 것만을 〈보기〉에서 있는 대로 고른 것은?","statements":["ㄱ. 씨 없는 수박의 체세포 염색체 수는 22이다.","ㄴ. 콜히친 처리로 얻은 4n 수박의 생식세포 염색체 수는 22이다.","ㄷ. C의 생식세포 염색체 수는 16이다."],"choices":["ㄱ","ㄱ, ㄴ","ㄱ, ㄷ","ㄴ, ㄷ","ㄱ, ㄴ, ㄷ"],"answer":4,"explain":"ㄱ. 씨 없는 수박은 3n = 33 (X). ㄴ. 4n = 44 → 생식세포 2n = 22 (O). ㄷ. 잡종 = 7 + 9 = 16 → 배가 32 → 생식세포 16 (O).","table":null,"fig":null},{"id":"F9","type":"essay","q":"복제분기점이 오른쪽으로 진행하고 있다. 주형 가닥 X는 왼쪽 끝이 3′, 오른쪽 끝이 5′이고, 주형 가닥 Y는 왼쪽 끝이 5′, 오른쪽 끝이 3′이다. (1) 선도가닥이 합성되는 주형은 X와 Y 중 무엇인가? 이유를 쓰시오. (2) 다른 주형에서 새 가닥이 완성될 때까지 관여하는 효소를 순서대로 쓰시오.","answer":"(1) X. 새 가닥은 주형과 역평행하므로 X 위의 새 가닥은 왼쪽이 5′, 오른쪽이 3′이다. 5′→3′ 합성 방향이 오른쪽 = 분기점 진행 방향과 같아 연속 합성된다. (Y 위의 새 가닥은 오른쪽→왼쪽으로 합성되어 분기점과 반대 → 지연가닥) (2) 프라이메이스(DnaG)가 RNA 프라이머 합성 → DNA 중합효소 III가 오카자키 절편 합성 → DNA 중합효소 I이 프라이머를 제거하고 그 자리를 DNA로 채움 → DNA 연결효소가 절편을 연결.","table":null,"fig":null}]}],"figs":{"C1":{"svg":"<svg viewBox=\"0 0 344 264\" width=\"396\" role=\"img\" aria-label=\"C1 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M110 32H194M152 32V86M32 86H212M32 86V106M122 86V106M212 86V106M230 124H294M262 124V178M222 178H302M222 178V198M302 178V198\"/><\/g><rect x=\"74\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"92\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"212\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"212\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><rect x=\"14\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><circle cx=\"122\" cy=\"124\" r=\"18\" fill=\"var(--aff1)\"/><circle cx=\"122\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"122\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><rect x=\"194\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"212\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">5<\/text><circle cx=\"312\" cy=\"124\" r=\"18\" fill=\"var(--aff1)\"/><circle cx=\"312\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"312\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">6<\/text><rect x=\"204\" y=\"198\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"222\" y=\"252\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">7<\/text><circle cx=\"302\" cy=\"216\" r=\"18\" fill=\"var(--aff1)\"/><circle cx=\"302\" cy=\"216\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"302\" y=\"252\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">8<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"정상 남자"},{"sex":"F","kind":"none","text":"정상 여자"},{"sex":"M","kind":"t1","text":"유전병 남자"},{"sex":"F","kind":"t1","text":"유전병 여자"}],"desc":"[가계도 C1] 1(남, 정상)와 2(여, 정상)는 부부, 자녀: 3(남, 정상), 4(여, 유전병), 5(남, 정상). 5(남, 정상)와 6(여, 유전병)는 부부, 자녀: 7(남, 정상), 8(여, 유전병)."},"C2":{"svg":"<svg viewBox=\"0 0 264 264\" width=\"304\" role=\"img\" aria-label=\"C2 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M70 32H154M112 32V86M32 86H132M32 86V106M132 86V106M150 124H214M182 124V178M142 178H222M142 178V198M222 178V198\"/><\/g><rect x=\"34\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"52\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"172\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"172\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><rect x=\"14\" y=\"106\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"14\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><circle cx=\"132\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"132\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><rect x=\"214\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"232\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">5<\/text><rect x=\"124\" y=\"198\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"124\" y=\"198\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"142\" y=\"252\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">6<\/text><circle cx=\"222\" cy=\"216\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"222\" y=\"252\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">7<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"정상 남자"},{"sex":"F","kind":"none","text":"정상 여자"},{"sex":"M","kind":"t1","text":"유전병 남자"},{"sex":"F","kind":"t1","text":"유전병 여자"}],"desc":"[가계도 C2] 1(남, 정상)와 2(여, 정상)는 부부, 자녀: 3(남, 유전병), 4(여, 정상). 5(남, 정상)와 4(여, 정상)는 부부, 자녀: 6(남, 유전병), 7(여, 정상)."},"C3":{"svg":"<svg viewBox=\"0 0 264 264\" width=\"304\" role=\"img\" aria-label=\"C3 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M70 32H154M112 32V86M32 86H132M32 86V106M132 86V106M150 124H214M182 124V178M142 178H222M142 178V198M222 178V198\"/><\/g><rect x=\"34\" y=\"14\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"34\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"52\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"172\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"172\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><rect x=\"14\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><circle cx=\"132\" cy=\"124\" r=\"18\" fill=\"var(--aff1)\"/><circle cx=\"132\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"132\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><rect x=\"214\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"232\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">5<\/text><rect x=\"124\" y=\"198\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"124\" y=\"198\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"142\" y=\"252\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">6<\/text><circle cx=\"222\" cy=\"216\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"222\" y=\"252\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">7<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"정상 남자"},{"sex":"F","kind":"none","text":"정상 여자"},{"sex":"M","kind":"t1","text":"㉠ 발현 남자"},{"sex":"F","kind":"t1","text":"㉠ 발현 여자"}],"desc":"[가계도 C3] 1(남, ㉠ 발현)와 2(여, 정상)는 부부, 자녀: 3(남, 정상), 4(여, ㉠ 발현). 5(남, 정상)와 4(여, ㉠ 발현)는 부부, 자녀: 6(남, ㉠ 발현), 7(여, 정상)."},"C4":{"svg":"<svg viewBox=\"0 0 364 172\" width=\"419\" role=\"img\" aria-label=\"C4 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M130 32H214M172 32V86M32 86H232M32 86V106M132 86V106M232 86V106M250 124H314\"/><\/g><rect x=\"112\" y=\"14\" width=\"18\" height=\"36\" fill=\"var(--aff2)\"/><rect x=\"94\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"112\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"232\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"232\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><path d=\"M32 106A18 18 0 0 0 32 142Z\" fill=\"var(--aff1)\"/><circle cx=\"32\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><rect x=\"114\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"132\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><circle cx=\"232\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"232\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">5<\/text><rect x=\"314\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"332\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">6<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"남자"},{"sex":"F","kind":"none","text":"여자"},{"sex":"F","kind":"half1","text":"㉠ 발현 (왼쪽 절반)"},{"sex":"M","kind":"half2","text":"㉡ 발현 (오른쪽 절반)"}],"desc":"[가계도 C4] 1(남, ㉡ 발현)와 2(여, ㉠·㉡ 모두 미발현)는 부부, 자녀: 3(여, ㉠ 발현), 4(남, ㉠·㉡ 모두 미발현), 5(여, ㉠·㉡ 모두 미발현). 6(남, ㉠·㉡ 모두 미발현)와 5(여, ㉠·㉡ 모두 미발현)는 부부 (자녀 없음)."},"C5":{"svg":"<svg viewBox=\"0 0 314 172\" width=\"361\" role=\"img\" aria-label=\"C5 가계도 (글자 = ABO식 혈액형)\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M70 32H154M112 32V86M32 86H132M32 86V106M132 86V106M150 124H224\"/><\/g><rect x=\"34\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"52\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><text x=\"75\" y=\"20\" font-size=\"13\" fill=\"var(--muted)\">A형<\/text><circle cx=\"172\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"172\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><text x=\"195\" y=\"20\" font-size=\"13\" fill=\"var(--muted)\">B형<\/text><rect x=\"14\" y=\"106\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"14\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><text x=\"55\" y=\"112\" font-size=\"13\" fill=\"var(--muted)\">O형<\/text><circle cx=\"132\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"132\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><text x=\"155\" y=\"112\" font-size=\"13\" fill=\"var(--muted)\">AB형<\/text><rect x=\"224\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"242\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">5<\/text><text x=\"265\" y=\"112\" font-size=\"13\" fill=\"var(--muted)\">O형<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"정상 남자"},{"sex":"F","kind":"none","text":"정상 여자"},{"sex":"M","kind":"t1","text":"적록색맹 남자"},{"sex":"F","kind":"t1","text":"적록색맹 여자"}],"desc":"[가계도 C5] 1(남, 정상, A형)와 2(여, 정상, B형)는 부부, 자녀: 3(남, 적록색맹, O형), 4(여, 정상, AB형). 5(남, 정상, O형)와 4(여, 정상, AB형)는 부부 (자녀 없음)."},"C6":{"svg":"<svg viewBox=\"0 0 264 172\" width=\"304\" role=\"img\" aria-label=\"C6 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M70 32H154M112 32V86M32 86H132M32 86V106M132 86V106M150 124H214\"/><\/g><rect x=\"34\" y=\"14\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"34\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"52\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"172\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"172\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><rect x=\"14\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><circle cx=\"132\" cy=\"124\" r=\"18\" fill=\"var(--aff1)\"/><circle cx=\"132\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"132\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><rect x=\"214\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"232\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">5<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"정상 남자"},{"sex":"F","kind":"none","text":"정상 여자"},{"sex":"M","kind":"t1","text":"대머리 남자"},{"sex":"F","kind":"t1","text":"대머리 여자"}],"desc":"[가계도 C6] 1(남, 대머리)와 2(여, 정상)는 부부, 자녀: 3(남, 정상), 4(여, 대머리). 5(남, 정상)와 4(여, 대머리)는 부부 (자녀 없음)."},"C7":{"svg":"<svg viewBox=\"0 0 344 264\" width=\"396\" role=\"img\" aria-label=\"C7 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M120 32H204M162 32V86M32 86H212M32 86V106M122 86V106M212 86V106M230 124H294M262 124V178M262 178V198\"/><\/g><rect x=\"84\" y=\"14\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"84\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"102\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"222\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"222\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><circle cx=\"32\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><circle cx=\"122\" cy=\"124\" r=\"18\" fill=\"var(--aff1)\"/><circle cx=\"122\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"122\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><rect x=\"194\" y=\"106\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"194\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"212\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">5<\/text><circle cx=\"312\" cy=\"124\" r=\"18\" fill=\"var(--aff1)\"/><circle cx=\"312\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"312\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">6<\/text><circle cx=\"262\" cy=\"216\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"262\" y=\"252\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">7<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"정상 남자"},{"sex":"F","kind":"none","text":"정상 여자"},{"sex":"M","kind":"t1","text":"유전병 남자"},{"sex":"F","kind":"t1","text":"유전병 여자"}],"desc":"[가계도 C7] 1(남, 유전병)와 2(여, 정상)는 부부, 자녀: 3(여, 정상), 4(여, 유전병), 5(남, 유전병). 5(남, 유전병)와 6(여, 유전병)는 부부, 자녀: 7(여, 정상)."},"C8":{"svg":"<svg viewBox=\"0 0 184 172\" width=\"212\" role=\"img\" aria-label=\"C8 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M50 32H134M92 32V86M52 86H142M52 86V106M142 86V106\"/><\/g><rect x=\"14\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"152\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"152\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><circle cx=\"52\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"52\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><rect x=\"124\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"142\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"남자"},{"sex":"F","kind":"none","text":"여자"}],"desc":"[가계도 C8] 1(남)와 2(여)는 부부, 자녀: 3(여), 4(남)."},"C9":{"svg":"<svg viewBox=\"0 0 184 172\" width=\"212\" role=\"img\" aria-label=\"C9 가계도\"><g fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"><path d=\"M50 32H134M92 32V86M52 86H142M52 86V106M142 86V106\"/><\/g><rect x=\"14\" y=\"14\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"32\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">1<\/text><circle cx=\"152\" cy=\"32\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"152\" y=\"68\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">2<\/text><rect x=\"34\" y=\"106\" width=\"36\" height=\"36\" fill=\"var(--aff1)\"/><rect x=\"34\" y=\"106\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"52\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">3<\/text><circle cx=\"142\" cy=\"124\" r=\"18\" fill=\"none\" stroke=\"var(--line)\" stroke-width=\"1.6\"/><text x=\"142\" y=\"160\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"var(--ink)\">4<\/text><\/svg>","legend":[{"sex":"M","kind":"none","text":"정상 남자"},{"sex":"F","kind":"none","text":"정상 여자"},{"sex":"M","kind":"t1","text":"유전병 남자"},{"sex":"F","kind":"t1","text":"유전병 여자"}],"desc":"[가계도 C9] 1(남, 정상)와 2(여, 정상)는 부부, 자녀: 3(남, 유전병), 4(여, 정상)."}}}</script>
+<script>
+
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("data").textContent);
+  var PARTS = DATA.parts, FIGS = DATA.figs;
+  var Q = {};
+  PARTS.forEach(function (p) { p.questions.forEach(function (q) { q.part = p.id; Q[q.id] = q; }); });
+  var SHORT = { A: "개념 서술", B: "효소 계산", C: "가계도", D: "다인자", E: "연관·지도", F: "DNA·변이" };
+  var CIRC = ["①", "②", "③", "④", "⑤"];
+
+  /* ---------- storage (this browser only) ---------- */
+  var KEY = "bio-yesang-v1";
+  var store = { mcq: {}, essay: {}, mark: {}, firstTry: {}, essayShown: {}, part: "A", filter: "all" };
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || "null");
+    if (saved && typeof saved === "object") {
+      ["mcq", "essay", "mark", "firstTry", "essayShown"].forEach(function (k) { if (saved[k] && typeof saved[k] === "object") store[k] = saved[k]; });
+      if (saved.part && Q && PARTS.some(function (p) { return p.id === saved.part; })) store.part = saved.part;
+      if (saved.filter) store.filter = saved.filter;
+    }
+  } catch (e) {}
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) {} }
+
+  /* ---------- text helpers ---------- */
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+  var SUB = /\s(?=\((?:[1-9]|가|나|다|라|마)\)\s)/g;
+  var BOGI = /\s(?=[ㄱㄴㄷ]\.\s)/g;
+  var CIRCS = /\s(?=[①②③④⑤]\s)/g;
+  function fmt(s, mode) {
+    return String(s).split(/\n\n+/).map(function (b) {
+      var lines = b.split("\n");
+      if (lines.every(function (l) { return l.indexOf("• ") === 0; })) {
+        return '<ul class="dots">' + lines.map(function (l) { return "<li>" + esc(l.slice(2)) + "</li>"; }).join("") + "</ul>";
+      }
+      var t = esc(b).replace(SUB, "\n");
+      if (mode === "answer") t = t.replace(BOGI, "\n").replace(CIRCS, "\n");
+      return "<p>" + t.replace(/\n/g, "<br>") + "</p>";
+    }).join("");
+  }
+  function md(s) {
+    var lines = esc(s || "").split("\n"), html = "", list = null;
+    function inline(t) { return t.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/`([^`]+)`/g, "<code>$1</code>"); }
+    function close() { if (list) { html += "</" + list + ">"; list = null; } }
+    lines.forEach(function (raw) {
+      var l = raw.replace(/\s+$/, ""), m;
+      if ((m = l.match(/^\s*[-*•]\s+(.*)$/))) { if (list !== "ul") { close(); html += "<ul>"; list = "ul"; } html += "<li>" + inline(m[1]) + "</li>"; return; }
+      if ((m = l.match(/^\s*(\d+)[.)]\s+(.*)$/))) { if (list !== "ol") { close(); html += '<ol start="' + m[1] + '">'; list = "ol"; } html += "<li>" + inline(m[2]) + "</li>"; return; }
+      close();
+      if (!l.trim()) return;
+      if ((m = l.match(/^#{1,4}\s+(.*)$/))) { html += '<p class="h">' + inline(m[1]) + "</p>"; return; }
+      html += "<p>" + inline(l) + "</p>";
+    });
+    close();
+    return html;
+  }
+
+  /* pedigree-style marks: empty = 아직, filled = 맞힘, half = 다시 볼 것 */
+  function markSvg(state, size) {
+    size = size || 22;
+    var inner = "";
+    if (state === "done") inner += '<rect x="2" y="2" width="18" height="18" fill="var(--aff1)"/>';
+    if (state === "review") inner += '<rect x="2" y="2" width="9" height="18" fill="var(--aff2)"/>';
+    inner += '<rect x="2" y="2" width="18" height="18" fill="none" stroke="var(--line)" stroke-width="1.5"/>';
+    return '<svg viewBox="0 0 22 22" width="' + size + '" height="' + size + '" aria-hidden="true">' + inner + "</svg>";
+  }
+  function legendSym(sex, kind) {
+    var a = "var(--aff1)", b = "var(--aff2)", inner = "";
+    if (sex === "M") {
+      if (kind === "t1") inner += '<rect x="1" y="1" width="14" height="14" fill="' + a + '"/>';
+      if (kind === "half1" || kind === "both") inner += '<rect x="1" y="1" width="7" height="14" fill="' + a + '"/>';
+      if (kind === "half2" || kind === "both") inner += '<rect x="8" y="1" width="7" height="14" fill="' + b + '"/>';
+      inner += '<rect x="1" y="1" width="14" height="14" fill="none" stroke="var(--line)" stroke-width="1.4"/>';
+    } else {
+      if (kind === "t1") inner += '<circle cx="8" cy="8" r="7" fill="' + a + '"/>';
+      if (kind === "half1" || kind === "both") inner += '<path d="M8 1A7 7 0 0 0 8 15Z" fill="' + a + '"/>';
+      if (kind === "half2" || kind === "both") inner += '<path d="M8 1A7 7 0 0 1 8 15Z" fill="' + b + '"/>';
+      inner += '<circle cx="8" cy="8" r="7" fill="none" stroke="var(--line)" stroke-width="1.4"/>';
+    }
+    return '<svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">' + inner + "</svg>";
+  }
+
+  /* ---------- state per question ---------- */
+  function status(id) {
+    var q = Q[id];
+    if (q.type === "mcq") {
+      var r = store.mcq[id];
+      if (!r) return "none";
+      return r.first ? "done" : "review";
+    }
+    return store.mark[id] || "none";
+  }
+  function counts(partId) {
+    var c = { total: 0, done: 0, review: 0, mcq: 0, essay: 0 };
+    PARTS.forEach(function (p) {
+      if (partId && p.id !== partId) return;
+      p.questions.forEach(function (q) {
+        c.total++; c[q.type]++;
+        var s = status(q.id);
+        if (s === "done") c.done++;
+        if (s === "review") c.review++;
+      });
+    });
+    return c;
+  }
+
+  /* ---------- rendering ---------- */
+  var tabsEl = document.getElementById("tabs"), headEl = document.getElementById("part-head"), sheetEl = document.getElementById("sheet");
+
+  function renderStats() {
+    var c = counts(null), solved = c.done + c.review;
+    document.getElementById("stat-all").innerHTML = "푼 문제 <b>" + solved + "</b>/" + c.total;
+    var tried = 0, right = 0;
+    Object.keys(store.mcq).forEach(function (id) { if (Q[id]) { tried++; if (store.mcq[id].first) right++; } });
+    document.getElementById("stat-mcq").innerHTML = tried ? "객관식 첫 시도 정답 <b>" + right + "</b>/" + tried : "객관식 " + c.mcq + "문항 · 서술형 " + c.essay + "문항";
+  }
+
+  function renderTabs() {
+    tabsEl.innerHTML = PARTS.map(function (p) {
+      var c = counts(p.id);
+      return '<button class="tab" type="button" data-part="' + p.id + '" aria-pressed="' + (p.id === store.part) + '">' +
+        '<span class="tl">' + p.id + '</span><span class="tn">' + esc(SHORT[p.id] || p.title) + '</span>' +
+        '<span class="tc">' + (c.done + c.review) + "/" + c.total + "</span></button>";
+    }).join("");
+  }
+
+  function renderHead() {
+    var p = PARTS.filter(function (x) { return x.id === store.part; })[0];
+    var c = counts(p.id);
+    var filters = [["all", "전체", c.total], ["mcq", "객관식", c.mcq], ["essay", "서술형", c.essay], ["review", "다시 볼 것", c.review]];
+    headEl.innerHTML =
+      "<h2>" + esc(p.title) + "</h2>" +
+      '<p class="desc">' + esc(p.desc) + "</p>" +
+      '<ul class="track" aria-label="문항 진행 상황">' + p.questions.map(function (q) {
+        var s = status(q.id), word = { none: "아직 안 풂", done: "맞힘", review: "다시 볼 것" }[s];
+        return '<li><button type="button" data-jump="' + q.id + '" title="' + q.id + " · " + word + '" aria-label="' + q.id + " " + word + '">' + markSvg(s) + "</button></li>";
+      }).join("") + "</ul>" +
+      '<div class="legend-row"><span>' + markSvg("done", 14) + "맞힘</span><span>" + markSvg("review", 14) + "다시 볼 것</span><span>" + markSvg("none", 14) + "아직</span></div>" +
+      '<div class="filters" role="group" aria-label="문항 거르기">' + filters.filter(function (f) { return f[2] > 0 || f[0] === "all" || f[0] === "review"; }).map(function (f) {
+        return '<button class="chip" type="button" data-filter="' + f[0] + '" aria-pressed="' + (store.filter === f[0]) + '">' + f[1] + '<span class="n">' + f[2] + "</span></button>";
+      }).join("") + "</div>";
+  }
+
+  function figHtml(key) {
+    var f = FIGS[key];
+    if (!f) return "";
+    return '<figure class="fig">' + f.svg + '<figcaption class="key">' + f.legend.map(function (l) {
+      return "<span>" + legendSym(l.sex, l.kind) + esc(l.text) + "</span>";
+    }).join("") + "</figcaption></figure>";
+  }
+  function tableHtml(t) {
+    if (!t) return "";
+    return '<div class="tablewrap"><table><thead><tr>' + t.head.map(function (h) { return "<th>" + esc(h) + "</th>"; }).join("") +
+      "</tr></thead><tbody>" + t.rows.map(function (r) { return "<tr>" + r.map(function (c) { return "<td>" + esc(c) + "</td>"; }).join("") + "</tr>"; }).join("") +
+      "</tbody></table></div>";
+  }
+
+  function mcqState(q) {
+    var r = store.mcq[q.id], ans = q.answer - 1, html = "";
+    html += '<div class="choices" role="group" aria-label="' + q.id + ' 선택지">' + q.choices.map(function (c, i) {
+      var cls = "choice";
+      if (r) { if (i === ans) cls += " is-answer"; else if (i === r.pick) cls += " is-wrong"; else cls += " is-dim"; }
+      return '<button type="button" class="' + cls + '" data-pick="' + i + '"' + (r ? " disabled" : "") + ">" + CIRC[i] + " " + esc(c) + "</button>";
+    }).join("") + "</div>";
+    if (r) {
+      var ok = r.pick === ans;
+      html += '<div class="feedback' + (ok ? "" : " no") + '" role="status"><p class="verdict">' +
+        (ok ? (r.first ? "정답이에요." : "정답이에요. 처음엔 틀렸으니 다시 볼 것에 남겨 둘게요.") : "아쉬워요. 정답은 " + CIRC[ans] + " " + esc(q.choices[ans]) + "예요.") +
+        "</p>" + fmt(q.explain, "answer") + "</div>";
+    }
+    return html;
+  }
+
+  function essayState(q) {
+    var shown = !!(store.mark[q.id] || store.essayShown && store.essayShown[q.id]);
+    var html = '<label class="sr" for="essay-' + q.id + '" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">' + q.id + ' 내 답</label>' +
+      '<textarea class="essay-input" id="essay-' + q.id + '" data-essay="' + q.id + '" placeholder="내 답을 먼저 써 보세요 (선택)">' + esc(store.essay[q.id] || "") + "</textarea>";
+    if (shown) {
+      var m = store.mark[q.id];
+      html += '<div class="model"><span class="tag">모범답안</span>' + fmt(q.answer, "answer") +
+        '<div class="self"><span>스스로 채점:</span>' +
+        '<button type="button" class="btn" data-mark="done" aria-pressed="' + (m === "done") + '">맞혔어요</button>' +
+        '<button type="button" class="btn" data-mark="review" aria-pressed="' + (m === "review") + '">다시 볼래요</button></div></div>';
+    }
+    return { html: html, shown: shown };
+  }
+
+  function questionHtml(q) {
+    var body = '<div class="q-text">' + fmt(q.q, "q") + "</div>" + (q.fig ? figHtml(q.fig) : "") + tableHtml(q.table);
+    var actions = "";
+    if (q.type === "mcq") {
+      body += '<div class="bogi"><span class="bogi-label">〈보기〉</span><ul>' + q.statements.map(function (s) { return "<li>" + esc(s) + "</li>"; }).join("") + "</ul></div>";
+      body += '<div class="state">' + mcqState(q) + "</div>";
+      actions = '<button type="button" class="btn ai ai-only" data-ask="' + q.id + '"' + (aiReady ? "" : " hidden") + ">AI에게 묻기</button>" +
+        (store.mcq[q.id] ? '<button type="button" class="btn" data-reset="' + q.id + '">다시 풀기</button>' : "");
+    } else {
+      var e = essayState(q);
+      body += '<div class="state">' + e.html + "</div>";
+      actions = (e.shown ? "" : '<button type="button" class="btn primary" data-reveal="' + q.id + '">모범답안 보기</button>') +
+        '<button type="button" class="btn ai ai-only" data-ask="' + q.id + '"' + (aiReady ? "" : " hidden") + ">AI에게 묻기</button>" +
+        '<button type="button" class="btn ai ai-only" data-grade="' + q.id + '"' + (aiReady && (store.essay[q.id] || "").trim() ? "" : " hidden") + ">내 답 AI 채점</button>";
+    }
+    return '<li class="q" id="q-' + q.id + '" data-q="' + q.id + '"><div class="q-gutter"><span class="q-id">' + q.id + '</span><span class="q-type">' +
+      (q.type === "mcq" ? "객관식" : "서술형") + '</span></div><div class="q-body">' + body + '<div class="actions">' + actions + "</div></div></li>";
+  }
+
+  function visible(q) {
+    var f = store.filter;
+    if (f === "mcq") return q.type === "mcq";
+    if (f === "essay") return q.type === "essay";
+    if (f === "review") return status(q.id) === "review";
+    return true;
+  }
+
+  function renderSheet() {
+    var p = PARTS.filter(function (x) { return x.id === store.part; })[0];
+    var qs = p.questions.filter(visible);
+    sheetEl.innerHTML = qs.length ? qs.map(questionHtml).join("") :
+      '<li class="empty">' + (store.filter === "review" ? "다시 볼 문제가 없어요. 틀린 객관식이나 ‘다시 볼래요’를 누른 서술형이 여기에 모여요." : "이 조건에 맞는 문제가 없어요.") + "</li>";
+  }
+
+  function rerenderQuestion(id) {
+    var li = document.getElementById("q-" + id);
+    if (!li) return;
+    var tmp = document.createElement("div");
+    tmp.innerHTML = "<ol>" + questionHtml(Q[id]) + "</ol>";
+    li.parentNode.replaceChild(tmp.firstChild.firstChild, li);
+  }
+
+  function renderAll() { renderStats(); renderTabs(); renderHead(); renderSheet(); }
+  function refreshChrome() { renderStats(); renderTabs(); renderHead(); }
+
+  /* ---------- routing ---------- */
+  function partFromHash() {
+    var m = /^#part-([a-f])$/i.exec(location.hash || "");
+    return m ? m[1].toUpperCase() : null;
+  }
+  function setPart(id, push) {
+    if (!PARTS.some(function (p) { return p.id === id; })) return;
+    store.part = id; store.filter = "all"; save();
+    if (push && location.hash !== "#part-" + id.toLowerCase()) {
+      try { history.replaceState(null, "", "#part-" + id.toLowerCase()); } catch (e) { try { location.hash = "part-" + id.toLowerCase(); } catch (e2) {} }
+    }
+    renderAll();
+    var t = tabsEl.querySelector('[data-part="' + id + '"]');
+    if (t && t.scrollIntoView) t.scrollIntoView({ block: "nearest", inline: "center" });
+    window.scrollTo({ top: Math.max(0, headEl.getBoundingClientRect().top + window.scrollY - 72) });
+  }
+  window.addEventListener("hashchange", function () { var p = partFromHash(); if (p && p !== store.part) setPart(p, false); });
+
+  /* ---------- events: questions ---------- */
+  tabsEl.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-part]");
+    if (b) setPart(b.getAttribute("data-part"), true);
+  });
+  headEl.addEventListener("click", function (e) {
+    var f = e.target.closest("[data-filter]");
+    if (f) { store.filter = f.getAttribute("data-filter"); save(); renderHead(); renderSheet(); return; }
+    var j = e.target.closest("[data-jump]");
+    if (j) {
+      var id = j.getAttribute("data-jump");
+      if (!document.getElementById("q-" + id)) { store.filter = "all"; save(); renderHead(); renderSheet(); }
+      var el = document.getElementById("q-" + id);
+      if (el) el.scrollIntoView({ behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+    }
+  });
+  sheetEl.addEventListener("click", function (e) {
+    var t = e.target, li = t.closest("[data-q]");
+    if (!li) return;
+    var id = li.getAttribute("data-q"), q = Q[id], b;
+    if ((b = t.closest("[data-pick]")) && !b.disabled) {
+      var pick = +b.getAttribute("data-pick");
+      var prev = store.firstTry || (store.firstTry = {});
+      var first = !(id in prev) ? (pick === q.answer - 1) : prev[id];
+      prev[id] = first;
+      store.mcq[id] = { pick: pick, first: first && pick === q.answer - 1 };
+      save(); rerenderQuestion(id); refreshChrome(); return;
+    }
+    if ((b = t.closest("[data-reset]"))) { delete store.mcq[id]; save(); rerenderQuestion(id); refreshChrome(); return; }
+    if ((b = t.closest("[data-reveal]"))) {
+      store.essayShown = store.essayShown || {}; store.essayShown[id] = true; save(); rerenderQuestion(id); return;
+    }
+    if ((b = t.closest("[data-mark]"))) {
+      var m = b.getAttribute("data-mark");
+      if (store.mark[id] === m) delete store.mark[id]; else store.mark[id] = m;
+      save(); rerenderQuestion(id); refreshChrome(); return;
+    }
+    if ((b = t.closest("[data-ask]"))) { openAsk(id, null); return; }
+    if ((b = t.closest("[data-grade]"))) { openAsk(id, "grade"); }
+  });
+  var essayTimer = null;
+  sheetEl.addEventListener("input", function (e) {
+    var ta = e.target.closest("[data-essay]");
+    if (!ta) return;
+    var id = ta.getAttribute("data-essay");
+    store.essay[id] = ta.value;
+    var g = sheetEl.querySelector('[data-grade="' + id + '"]');
+    if (g) g.hidden = !(aiReady && ta.value.trim());
+    clearTimeout(essayTimer); essayTimer = setTimeout(save, 400);
+  });
+
+  /* ---------- AI에게 묻기: 문제·해설을 담아 Claude로 넘기기 ---------- */
+  var aiReady = true;
+  var askEl = document.getElementById("ask"), backdrop = document.getElementById("backdrop"), fab = document.getElementById("fab");
+  var askCtx = document.getElementById("ask-ctx"), askOpts = document.getElementById("ask-opts"), askText = document.getElementById("ask-text");
+  var askOpen = document.getElementById("ask-open"), askCopy = document.getElementById("ask-copy"), askNote = document.getElementById("ask-note");
+  var ask = { qid: null, opt: 0, opts: [] }, lastFocus = null;
+  var MAXQ = 1600;
+  var NOTE = "Claude가 새 탭에서 열리고 질문이 입력돼 있어요. 보내기만 누르면 돼요. Claude 앱으로 열려서 질문이 비어 있으면 ‘질문 복사’를 누른 뒤 붙여 넣으세요.";
+  var GRADE = "제가 쓴 답을 채점해 주세요. 모범답안과 비교해서 맞은 점, 빠진 핵심 키워드, 고칠 점을 나눠 알려 주고 10점 만점 점수도 매겨 주세요.";
+  var LEAD = "과학고 1학년 생명과학 시험 공부 중이에요. 고등학교 교과서 용어로, 존댓말로, 핵심부터 단계별로 설명해 주세요. 계산은 식과 과정을 보여 주세요. 아래 정답과 해설을 기준으로 하되, 틀렸다고 확신하면 근거와 함께 알려 주세요.";
+
+  function optionsFor(id) {
+    if (!id) return [
+      ["가계도 판정 순서", "가계도에서 유전 양식(우열, 상염색체/X 염색체)을 판정하는 순서를 예시와 함께 정리해 주세요."],
+      ["저해 유형 비교", "경쟁적·무경쟁적·비경쟁적·혼합형 저해에서 Km과 Vmax가 어떻게 변하는지, 라인위버-버크 그래프 모양과 함께 비교해 주세요."],
+      ["다인자 유전 확률", "다인자 유전에서 대문자 수별 확률을 구하는 방법을 독립·상인·상반 예제와 함께 알려 주세요."],
+      ["메셀슨·스탈 정리", "메셀슨·스탈 실험 결과를 세대별로 정리하고 보존적·분산적 복제와 비교해 주세요."]
+    ];
+    var q = Q[id], list = [];
+    if (q.type === "mcq") {
+      list.push(["풀이 단계별로", "이 문제의 풀이를 처음부터 단계별로 보여 주세요."]);
+      list.push(["보기 하나씩", "〈보기〉 ㄱ, ㄴ, ㄷ이 각각 왜 맞거나 틀린지 하나씩 따져 주세요."]);
+      var r = store.mcq[id];
+      if (r && r.pick !== q.answer - 1) list.push(["내 답이 왜 틀렸는지", "제가 고른 답이 왜 틀렸는지, 어디서 실수하기 쉬운지 알려 주세요."]);
+    } else {
+      list.push(["쉽게 설명", "모범답안을 더 쉽게 풀어서 설명해 주세요."]);
+      list.push(["핵심 키워드", "서술형 채점에서 꼭 들어가야 할 핵심 키워드만 뽑아 주세요."]);
+      if ((store.essay[id] || "").trim()) list.push(["내 답 채점", GRADE]);
+    }
+    list.push(["비슷한 문제", "이 문제와 비슷한 문제를 하나 더 내 주세요. 정답은 제가 달라고 할 때 알려 주세요."]);
+    return list;
+  }
+
+  function contextFor(id) {
+    var q = Q[id], p = PARTS.filter(function (x) { return x.id === q.part; })[0];
+    var s = "[문제 " + q.id + "] " + p.title + " · " + (q.type === "mcq" ? "객관식" : "서술형") + "\n" + q.q;
+    if (q.fig && FIGS[q.fig]) s += "\n그림: " + FIGS[q.fig].desc + " (괄호 안은 성별과 형질 발현 여부)";
+    if (q.table) s += "\n표: " + [q.table.head.join(" | ")].concat(q.table.rows.map(function (r) { return r.join(" | "); })).join(" / ");
+    if (q.type === "mcq") {
+      s += "\n〈보기〉 " + q.statements.join(" ");
+      s += "\n선택지: " + q.choices.map(function (c, i) { return CIRC[i] + " " + c; }).join("  ");
+      var r = store.mcq[id];
+      if (r) s += "\n내가 고른 답: " + CIRC[r.pick] + " (" + q.choices[r.pick] + ")";
+      s += "\n정답: " + CIRC[q.answer - 1] + " (" + q.choices[q.answer - 1] + ")\n해설: " + q.explain;
+    } else {
+      var t = (store.essay[id] || "").trim();
+      if (t) s += "\n내가 쓴 답: " + t;
+      s += "\n모범답안: " + q.answer;
+    }
+    return s;
+  }
+
+  function currentRequest() {
+    var free = askText.value.trim();
+    if (free) return free;
+    return ask.opts[ask.opt] ? ask.opts[ask.opt][1] : "";
+  }
+  function buildPrompt() {
+    var parts = [LEAD, "질문: " + currentRequest()];
+    if (ask.qid) parts.push(contextFor(ask.qid));
+    else parts.push("시험 범위: 효소 반응 속도와 저해, 가계도·사람의 유전, 다인자 유전, 연관과 교차·유전자 지도, DNA 복제·유전물질 실험·돌연변이.");
+    return parts.join("\n\n");
+  }
+  function updateLink() {
+    var full = buildPrompt(), q = full.length > MAXQ ? full.slice(0, MAXQ) + "…" : full;
+    askOpen.href = "https://claude.ai/new?q=" + encodeURIComponent(q);
+    askNote.textContent = full.length > MAXQ ? "질문이 길어서 Claude 링크에는 앞부분만 들어가요. 전체는 ‘질문 복사’ 후 붙여 넣으세요." : NOTE;
+  }
+
+  function renderAsk() {
+    if (ask.qid) {
+      var q = Q[ask.qid], extra = [];
+      if (q.type === "mcq" && store.mcq[ask.qid]) extra.push("내가 고른 답");
+      if (q.type === "essay" && (store.essay[ask.qid] || "").trim()) extra.push("내가 쓴 답");
+      askCtx.innerHTML = "<b>" + esc(ask.qid) + "</b>번 문제와 정답·해설" + (extra.length ? ", " + extra.join(", ") : "") + "을 함께 보내요.";
+    } else {
+      askCtx.textContent = "특정 문제 없이 시험 범위에 대해 물어봐요. 문제 옆 ‘AI에게 묻기’를 누르면 그 문제를 붙여서 물을 수 있어요.";
+    }
+    var typing = !!askText.value.trim();
+    askOpts.innerHTML = ask.opts.map(function (o, i) {
+      return '<button type="button" class="chip" data-opt="' + i + '" aria-pressed="' + (!typing && i === ask.opt) + '">' + esc(o[0]) + "</button>";
+    }).join("");
+    updateLink();
+  }
+
+  function openAsk(id, preset) {
+    ask.qid = id || null;
+    ask.opts = optionsFor(ask.qid);
+    ask.opt = 0;
+    if (preset === "grade") ask.opts.forEach(function (o, i) { if (o[1] === GRADE) ask.opt = i; });
+    askText.value = "";
+    renderAsk();
+    lastFocus = document.activeElement;
+    askEl.hidden = false; backdrop.hidden = false;
+    document.documentElement.classList.add("lock");
+    var c = document.getElementById("ask-close"); if (c) c.focus();
+  }
+  function closeAsk() {
+    askEl.hidden = true; backdrop.hidden = true;
+    document.documentElement.classList.remove("lock");
+    if (lastFocus && lastFocus.focus) try { lastFocus.focus(); } catch (e) {}
+  }
+
+  function copyText(t) {
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = t; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.top = "0"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      var ok = false; try { ok = document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(ta); return ok;
+    }
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(t).then(function () { return true; }, function () { return fallback(); });
+    }
+    return Promise.resolve(fallback());
+  }
+
+  askOpts.addEventListener("click", function (e) {
+    var b = e.target.closest("[data-opt]");
+    if (!b) return;
+    ask.opt = +b.getAttribute("data-opt"); askText.value = ""; renderAsk();
+  });
+  askText.addEventListener("input", function () {
+    var typing = !!askText.value.trim();
+    Array.prototype.forEach.call(askOpts.querySelectorAll("[data-opt]"), function (b) {
+      b.setAttribute("aria-pressed", String(!typing && +b.getAttribute("data-opt") === ask.opt));
+    });
+    updateLink();
+  });
+  askOpen.addEventListener("click", function () { updateLink(); setTimeout(closeAsk, 300); });
+  askCopy.addEventListener("click", function () {
+    copyText(buildPrompt()).then(function (ok) {
+      askCopy.textContent = ok ? "복사됐어요" : "복사 실패";
+      askNote.textContent = ok ? "Claude 앱이나 다른 AI 앱에 붙여 넣고 보내세요." : "복사가 막혔어요. ‘Claude에서 열기’를 눌러 주세요.";
+      setTimeout(function () { askCopy.textContent = "질문 복사"; }, 1800);
+    });
+  });
+  document.getElementById("ask-close").addEventListener("click", closeAsk);
+  backdrop.addEventListener("click", closeAsk);
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !askEl.hidden) closeAsk(); });
+  fab.addEventListener("click", function () { if (askEl.hidden) openAsk(null); else closeAsk(); });
+
+  /* ---------- 앱처럼 설치 (안드로이드 크롬) + 오프라인 ---------- */
+  var installBtn = document.getElementById("install"), deferredPrompt = null;
+  window.addEventListener("beforeinstallprompt", function (e) { e.preventDefault(); deferredPrompt = e; installBtn.hidden = false; });
+  installBtn.addEventListener("click", function () {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(function () { deferredPrompt = null; installBtn.hidden = true; }, function () {});
+  });
+  window.addEventListener("appinstalled", function () { installBtn.hidden = true; });
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
+  }
+
+  /* ---------- 시작 ---------- */
+  var hp = partFromHash();
+  if (hp) store.part = hp;
+  try { renderAll(); }
+  catch (err) {
+    sheetEl.innerHTML = '<li class="empty">문제를 화면에 그리지 못했어요. 이 화면을 캡처해서 보내 주세요.<br><small>' + esc(err && (err.message || err)) + "</small></li>";
+  }
+
+})();
+</script>
+</body>
+</html>
